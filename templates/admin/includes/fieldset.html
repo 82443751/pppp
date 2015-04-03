@@ -1,0 +1,89 @@
+<fieldset class="module aligned {{ fieldset.classes }}">
+    {% if fieldset.name %}<h2>{{ fieldset.name }}</h2>{% endif %}
+    {% if fieldset.description %}
+        <div class="description">{{ fieldset.description|safe }}</div>
+    {% endif %}
+    {% for line in fieldset %}
+        <div class="form-row{% if line.fields|length_is:'1' and line.errors %} errors{% endif %}{% if not line.has_visible_field %} hidden{% endif %}{% for field in line %}{% if field.field.name %} field-{{ field.field.name }}{% endif %}{% endfor %}">
+            {% if line.fields|length_is:'1' %}{{ line.errors }}{% endif %}
+            {% for field in line %}
+                <div{% if not line.fields|length_is:'1' %}
+                    class="field-box{% if field.field.name %} field-{{ field.field.name }}{% endif %}{% if not field.is_readonly and field.errors %} errors{% endif %}{% if field.field.is_hidden %} hidden{% endif %}"{% elif field.is_checkbox %}
+                    class="checkbox-row"{% endif %}>
+                    {% if not line.fields|length_is:'1' and not field.is_readonly %}{{ field.errors }}{% endif %}
+                    {% if field.is_checkbox %}
+                        {{ field.field }}{{ field.label_tag }}
+                    {% else %}
+                        {{ field.label_tag }}
+                        {% if field.is_readonly %}
+                            <p>{{ field.contents }}</p>
+                        {% else %}
+                            <div>
+                                {% if field.field.name == 'question' %}
+                                    {% load static %}
+                                    <script type="text/javascript" src="{% static 'js/jquery.min.js' %}"></script>
+                                    <script type="text/javascript" src="{% static  'js/jquery-ui.js'%}"></script>
+
+                                    <link rel="stylesheet" type="text/css" href="{% static "css/jquery-ui.min.css" %}"/>
+                                    <link rel="stylesheet" type="text/css" href="{% static "css/jquery-ui.structure.min.css" %}"/>
+                                    <link rel="stylesheet" type="text/css" href="{% static "css/jquery-ui.theme.min.css" %}"/>
+                                    从已有问题中选择：<select id="id_question_class" name="question_class">
+                                        <option value="-1">-</option>
+                                        {% for qs in question_classes_set %}
+                                            <option value="{{ qs.id }}">{{ qs.zh_content }}-{{ qs.en_content }}</option>
+                                    {% endfor %}
+                                    </select><br>
+{#                                    或输入#}
+{#                                    <input type="text" class="vTextField" id="id_search_for_question" value=""/><br>#}
+{##}
+{#                                    <script type="text/javascript">#}
+{#                                            $("#id_search_for_question").autocomplete({#}
+{#                                                source: "{% url 'eval_question_autocomplete' %}",#}
+{#                                                minLength: 2,#}
+{#                                                select: function( event, ui ) {#}
+{#                                                    var idqs=$('#id_question');#}
+{#                                                    $('<option selected="selected" value="'+ui.item.value+'">'+ui.item.label+'</option>').appendTo(idqs);#}
+{#                                                    return false;#}
+{#                                                }#}
+{#                                            });#}
+{#                                            $('#id_question_class').change(function(){#}
+{#                                                var qs_id=$('#id_question_class').val();#}
+{#                                                if(qs_id==-1){#}
+{#                                                    return;#}
+{#                                                }#}
+{#                                                var exist_qs_id =[]#}
+{#                                                $.each($('#id_question option'),function(i,v){#}
+{#                                                    exist_qs_id[exist_qs_id.length]=$(this).val();#}
+{#                                                });#}
+{#                                                alert(exist_qs_id);#}
+{#                                                $.get(#}
+{#                                                        '{% url "eval_get_questions_by_class" %}',#}
+{#                                                        {'qs_id':qs_id,#}
+{#                                                        'exist_qs_id':exist_qs_id.join(',')},#}
+{#                                                        function(data){#}
+{#                                                            var idqs=$('#id_question');#}
+{#                                                            $.each(data,function(i,item){#}
+{#                                                                $('<option value="'+item[0]+'">'+item[1]+'</option>').appendTo(idqs);#}
+{##}
+{#                                                            });#}
+{#                                                        },'json'#}
+{#                                                );#}
+{#                                            });#}
+{##}
+{#                                            $(document).ready(function(){#}
+{#                                                $('#id_question').wrap('<div class="scrollable"></div>');#}
+{#                                            });#}
+{#                                    </script>#}
+                                {% endif %}
+                                {{ field.field }}
+                            </div>
+                        {% endif %}
+                    {% endif %}
+                    {% if field.field.help_text %}
+                        <p class="help">{{ field.field.help_text|safe }}</p>
+                    {% endif %}
+                </div>
+            {% endfor %}
+        </div>
+    {% endfor %}
+</fieldset>

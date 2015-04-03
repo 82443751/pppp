@@ -1,0 +1,673 @@
+# SOME DESCRIPTIVE TITLE.
+# Copyright (C) YEAR THE PACKAGE'S COPYRIGHT HOLDER
+# This file is distributed under the same license as the PACKAGE package.
+# FIRST AUTHOR <EMAIL@ADDRESS>, YEAR.
+#
+#, fuzzy
+msgid ""
+msgstr ""
+"Project-Id-Version: PACKAGE VERSION\n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2015-01-14 22:28+0800\n"
+"PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
+"Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
+"Language-Team: LANGUAGE <LL@li.org>\n"
+"Language: \n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+
+#: backend/admin.py:11
+msgid "爱在人间"
+msgstr "Agape"
+
+#: backend/models.py:22 backend/models.py:43 backend/models.py:63
+msgid "中文"
+msgstr "Chinese"
+
+#: backend/models.py:22
+msgid "示例：轻微"
+msgstr "Sample: Mild"
+
+#: backend/models.py:23 backend/models.py:44 backend/models.py:64
+msgid "英文"
+msgstr "English"
+
+#: backend/models.py:23
+msgid "Example: Lower"
+msgstr ""
+
+#: backend/models.py:24 backend/models.py:204
+msgid "分值"
+msgstr "Weight"
+
+#: backend/models.py:24
+msgid "该选项的分值"
+msgstr "Weight for this option"
+
+#: backend/models.py:25 backend/models.py:45 backend/models.py:67
+#: backend/models.py:93 backend/models.py:125 backend/models.py:155
+#: backend/models.py:171 backend/models.py:191 backend/models.py:205
+msgid "添加时间"
+msgstr "Added Time"
+
+#: backend/models.py:38
+msgid "问题可选项"
+msgstr "Options for question"
+
+#: backend/models.py:58
+msgid "问题类别"
+msgstr "Question Class"
+
+#: backend/models.py:80 backend/models.py:121
+msgid "问题"
+msgstr "Question"
+
+#: backend/models.py:86
+msgid "分值区间低值"
+msgstr "Lower value of this score range"
+
+#: backend/models.py:86 backend/models.py:87
+msgid "包含"
+msgstr "Including"
+
+#: backend/models.py:87
+msgid "分值区间高值"
+msgstr "Upper value of this score range"
+
+#: backend/models.py:89
+msgid "简要说明"
+msgstr "Simple descripiton"
+
+#: backend/models.py:90
+msgid "简要说明[英文]"
+msgstr "Simple descripiton [English]"
+
+#: backend/models.py:91
+msgid "详细说明"
+msgstr "Detailed description"
+
+#: backend/models.py:92
+msgid "详细说明[英文]"
+msgstr "Detailed descripiton [English]"
+
+#: backend/models.py:112
+msgid "分数说明"
+msgstr "Description for this score"
+
+#: backend/models.py:117
+msgid "标题"
+msgstr "Title"
+
+#: backend/models.py:118
+msgid "标题[英文]"
+msgstr "Title [English]"
+
+#: backend/models.py:119 templates/backend/eval_result.html:62
+#: templates/backend/eval_result.html:74
+msgid "说明"
+msgstr "Description"
+
+#: backend/models.py:120
+msgid "说明[英文]"
+msgstr "Description [English]"
+
+#: backend/models.py:122
+msgid "分值说明"
+msgstr "Result Explain"
+
+#: backend/models.py:123
+msgid "是否需要付费"
+msgstr "Need payment or not"
+
+#: backend/models.py:124 backend/models.py:187
+msgid "价格"
+msgstr "Price"
+
+#: backend/models.py:144
+msgid "单套测试"
+msgstr "Single test"
+
+#: backend/models.py:149 templates/backend/eval.html:32
+msgid "男"
+msgstr "Male"
+
+#: backend/models.py:149 templates/backend/eval.html:36
+msgid "女"
+msgstr "Female"
+
+#: backend/models.py:150 templates/backend/eval.html:12
+msgid "姓名"
+msgstr "Name"
+
+#: backend/models.py:151 templates/backend/eval.html:28
+msgid "性别"
+msgstr "Sex"
+
+#: backend/models.py:152 templates/backend/eval.html:41
+msgid "年龄"
+msgstr "Age"
+
+#: backend/models.py:153
+msgid "邮箱"
+msgstr "Email address"
+
+#: backend/models.py:154
+msgid "手机"
+msgstr "Mobile phone number"
+
+#: backend/models.py:162
+msgid "用户信息"
+msgstr "User information"
+
+#: backend/models.py:178
+msgid "用户选择"
+msgstr "User choice"
+
+#: backend/models.py:186
+msgid "是否已支付"
+msgstr "Has been paid or not"
+
+#: backend/models.py:188
+msgid "订单号"
+msgstr "order no."
+
+#: backend/models.py:189
+msgid "支付宝订单号"
+msgstr "Alipay order no."
+
+#: backend/models.py:190
+msgid "支付时间"
+msgstr "Payment time"
+
+#: backend/models.py:198
+msgid "用户得分"
+msgstr "User score"
+
+#: backend/views.py:50
+msgid "请完整填写以下信息"
+msgstr "Please complete the following information"
+
+#: backend/views.py:53 backend/views.py:116 backend/views.py:161
+#: backend/views.py:214 backend/views.py:265 backend/views.py:355
+#: backend/views.py:382
+msgid "测试题"
+msgstr "Test"
+
+#: backend/views.py:54
+msgid "请先填写以下个人信息，然后点击下一步开始测试"
+msgstr ""
+"Please complete the following personnal information, and then click 'Next' "
+"to start this test"
+
+#: backend/views.py:92 backend/views.py:373
+msgid "提交"
+msgstr "Submit"
+
+#: backend/views.py:96 backend/views.py:111 backend/views.py:207
+#: backend/views.py:376
+msgid "爱在人间测试"
+msgstr "Agape test"
+
+#: backend/views.py:97
+msgid "请从主站相关测试题进入本测试"
+msgstr "Please access this test through the related test on our main website"
+
+#: backend/views.py:112 backend/views.py:208 backend/views.py:259
+msgid "未找到你要进行的测试"
+msgstr "The test you want to take is not found"
+
+#: backend/views.py:143 backend/views.py:240
+#: templates/backend/eval_result.html:124
+msgid "支付"
+msgstr "Payment"
+
+#: backend/views.py:160
+msgid "返回"
+msgstr "Back"
+
+#: backend/views.py:162
+msgid "请全部填写完成后再点击'提交'按钮。"
+msgstr ""
+
+#: backend/views.py:258 backend/views.py:402
+msgid "爱在人间测试报告"
+msgstr "Agape test report"
+
+#: backend/views.py:377
+msgid "支付错误，请从主站相关测试题进入本测试"
+msgstr ""
+"Payment error, Please access this test through the related test on our main "
+"website"
+
+#: templates/admin/backend/404.html:4 templates/admin/backend/404.html.py:8
+msgid "Page not found"
+msgstr ""
+
+#: templates/admin/backend/404.html:10
+msgid "We're sorry, but the requested page could not be found."
+msgstr ""
+
+#: templates/admin/backend/500.html:6 templates/admin/backend/app_index.html:9
+#: templates/admin/backend/auth/user/change_password.html:14
+#: templates/admin/backend/base.html:55
+#: templates/admin/backend/change_list.html:42
+#: templates/admin/backend/delete_confirmation.html:9
+#: templates/admin/backend/delete_selected_confirmation.html:9
+#: templates/admin/backend/invalid_setup.html:6
+#: templates/admin/backend/object_history.html:6
+#: templates/admin/change_form.html:44
+msgid "Home"
+msgstr ""
+
+#: templates/admin/backend/500.html:7
+msgid "Server error"
+msgstr ""
+
+#: templates/admin/backend/500.html:11
+msgid "Server error (500)"
+msgstr ""
+
+#: templates/admin/backend/500.html:14
+msgid "Server Error <em>(500)</em>"
+msgstr ""
+
+#: templates/admin/backend/500.html:15
+msgid ""
+"There's been an error. It's been reported to the site administrators via "
+"email and should be fixed shortly. Thanks for your patience."
+msgstr ""
+
+#: templates/admin/backend/actions.html:5
+msgid "Run the selected action"
+msgstr ""
+
+#: templates/admin/backend/actions.html:6
+msgid "Go"
+msgstr ""
+
+#: templates/admin/backend/actions.html:13
+msgid "Click here to select the objects across all pages"
+msgstr ""
+
+#: templates/admin/backend/actions.html:14
+#, python-format
+msgid ""
+"Select all %(total_count)s\n"
+"                    %(module_name)s"
+msgstr ""
+
+#: templates/admin/backend/actions.html:17
+msgid "Clear selection"
+msgstr ""
+
+#: templates/admin/backend/auth/user/add_form.html:6
+msgid ""
+"First, enter a username and password. Then, you'll be able to edit more user "
+"options."
+msgstr ""
+
+#: templates/admin/backend/auth/user/add_form.html:8
+msgid "Enter a username and password."
+msgstr ""
+
+#: templates/admin/backend/auth/user/change_password.html:20
+#: templates/admin/backend/auth/user/change_password.html:59
+#: templates/admin/backend/base.html:44
+msgid "Change password"
+msgstr ""
+
+#: templates/admin/backend/auth/user/change_password.html:32
+#: templates/admin/backend/change_list.html:70
+#: templates/admin/backend/login.html:18 templates/admin/change_form.html:80
+msgid "Please correct the error below."
+msgstr ""
+
+#: templates/admin/backend/auth/user/change_password.html:33
+#: templates/admin/backend/change_list.html:71
+#: templates/admin/backend/login.html:19 templates/admin/change_form.html:81
+msgid "Please correct the errors below."
+msgstr ""
+
+#: templates/admin/backend/auth/user/change_password.html:37
+#, python-format
+msgid ""
+"Enter a new password for the user <strong>%(username)s</strong>\n"
+"                ."
+msgstr ""
+
+#: templates/admin/backend/auth/user/change_password.html:45
+msgid "Password"
+msgstr ""
+
+#: templates/admin/backend/auth/user/change_password.html:52
+msgid "Password (again)"
+msgstr ""
+
+#: templates/admin/backend/auth/user/change_password.html:53
+msgid "Enter the same password as above, for verification."
+msgstr ""
+
+#: templates/admin/backend/base.html:35
+msgid "Welcome,"
+msgstr ""
+
+#: templates/admin/backend/base.html:41
+msgid "Documentation"
+msgstr ""
+
+#: templates/admin/backend/base.html:46
+msgid "Log out"
+msgstr ""
+
+#: templates/admin/backend/base_site.html:3
+msgid "Django site admin"
+msgstr ""
+
+#: templates/admin/backend/base_site.html:6
+msgid "Django administration"
+msgstr ""
+
+#: templates/admin/backend/change_list.html:61
+#, python-format
+msgid "Add %(name)s"
+msgstr ""
+
+#: templates/admin/backend/change_list.html:82
+msgid "Filter"
+msgstr ""
+
+#: templates/admin/backend/change_list_results.html:18
+msgid "Remove from sorting"
+msgstr ""
+
+#: templates/admin/backend/change_list_results.html:20
+#, python-format
+msgid "Sorting priority: %(priority_number)s"
+msgstr ""
+
+#: templates/admin/backend/change_list_results.html:24
+msgid "Toggle sorting"
+msgstr ""
+
+#: templates/admin/backend/delete_confirmation.html:14
+#: templates/admin/backend/submit_line.html:7
+msgid "Delete"
+msgstr ""
+
+#: templates/admin/backend/delete_confirmation.html:21
+#, python-format
+msgid ""
+"Deleting the %(object_name)s '%(escaped_object)s' would\n"
+"                result in deleting related objects, but your account doesn't "
+"have permission to delete the following\n"
+"                types of objects:"
+msgstr ""
+
+#: templates/admin/backend/delete_confirmation.html:31
+#, python-format
+msgid ""
+"Deleting the %(object_name)s '%(escaped_object)s' would\n"
+"                require deleting the following protected related objects:"
+msgstr ""
+
+#: templates/admin/backend/delete_confirmation.html:40
+#, python-format
+msgid ""
+"Are you sure you want to delete the %(object_name)s \"\n"
+"            %(escaped_object)s\"? All of the following related items will be "
+"deleted:"
+msgstr ""
+
+#: templates/admin/backend/delete_confirmation.html:46
+#: templates/admin/backend/delete_selected_confirmation.html:49
+msgid "Yes, I'm sure"
+msgstr ""
+
+#: templates/admin/backend/delete_selected_confirmation.html:12
+msgid "Delete multiple objects"
+msgstr ""
+
+#: templates/admin/backend/delete_selected_confirmation.html:19
+#, python-format
+msgid ""
+"Deleting the selected %(objects_name)s would result in deleting related "
+"objects, but\n"
+"                your account doesn't have permission to delete the following "
+"types of objects:"
+msgstr ""
+
+#: templates/admin/backend/delete_selected_confirmation.html:28
+#, python-format
+msgid ""
+"Deleting the selected %(objects_name)s would require deleting the following "
+"protected\n"
+"                related objects:"
+msgstr ""
+
+#: templates/admin/backend/delete_selected_confirmation.html:37
+#, python-format
+msgid ""
+"Are you sure you want to delete the selected %(objects_name)s? All of the "
+"following objects\n"
+"            and their related items will be deleted:"
+msgstr ""
+
+#: templates/admin/backend/edit_inline/stacked.html:14
+#: templates/admin/backend/edit_inline/tabular.html:41
+#: templates/admin/change_form.html:66
+msgid "View on site"
+msgstr ""
+
+#: templates/admin/backend/edit_inline/stacked.html:34
+#: templates/admin/backend/edit_inline/tabular.html:91
+msgid "Remove"
+msgstr ""
+
+#: templates/admin/backend/edit_inline/stacked.html:35
+#: templates/admin/backend/edit_inline/tabular.html:90
+#, python-format
+msgid "Add another %(verbose_name)s"
+msgstr ""
+
+#: templates/admin/backend/edit_inline/tabular.html:23
+msgid "Delete?"
+msgstr ""
+
+#: templates/admin/backend/filter.html:2
+#, python-format
+msgid " By %(filter_title)s "
+msgstr ""
+
+#: templates/admin/backend/index.html:22
+#, python-format
+msgid "Models in the %(name)s application"
+msgstr ""
+
+#: templates/admin/backend/index.html:33 templates/admin/change_form.html:50
+msgid "Add"
+msgstr ""
+
+#: templates/admin/backend/index.html:39
+msgid "Change"
+msgstr ""
+
+#: templates/admin/backend/index.html:49
+msgid "You don't have permission to edit anything."
+msgstr ""
+
+#: templates/admin/backend/index.html:57
+msgid "Recent Actions"
+msgstr ""
+
+#: templates/admin/backend/index.html:59
+msgid "My Actions"
+msgstr ""
+
+#: templates/admin/backend/index.html:63
+msgid "None available"
+msgstr ""
+
+#: templates/admin/backend/index.html:78
+msgid "Unknown content"
+msgstr ""
+
+#: templates/admin/backend/invalid_setup.html:12
+msgid ""
+"Something's wrong with your database installation. Make sure the appropriate "
+"database tables have been created, and make sure the database is readable by "
+"the appropriate user."
+msgstr ""
+
+#: templates/admin/backend/login.html:39
+msgid "Password:"
+msgstr ""
+
+#: templates/admin/backend/login.html:45
+msgid "Forgotten your password or username?"
+msgstr ""
+
+#: templates/admin/backend/login.html:49
+msgid "Log in"
+msgstr ""
+
+#: templates/admin/backend/object_history.html:11
+#: templates/admin/change_form.html:63
+msgid "History"
+msgstr ""
+
+#: templates/admin/backend/object_history.html:23
+msgid "Date/time"
+msgstr ""
+
+#: templates/admin/backend/object_history.html:24
+msgid "User"
+msgstr ""
+
+#: templates/admin/backend/object_history.html:25
+msgid "Action"
+msgstr ""
+
+#: templates/admin/backend/object_history.html:40
+msgid ""
+"This object doesn't have a change history. It probably wasn't added via this "
+"admin site."
+msgstr ""
+
+#: templates/admin/backend/pagination.html:11
+msgid "Show all"
+msgstr ""
+
+#: templates/admin/backend/pagination.html:13
+#: templates/admin/backend/submit_line.html:3
+msgid "Save"
+msgstr ""
+
+#: templates/admin/backend/search_form.html:8
+msgid "Search"
+msgstr ""
+
+#: templates/admin/backend/search_form.html:10
+#, python-format
+msgid ""
+"%(counter)s result\n"
+"                        "
+msgid_plural "%(counter)s results"
+msgstr[0] ""
+msgstr[1] ""
+
+#: templates/admin/backend/search_form.html:13
+#, python-format
+msgid ""
+"%(full_result_count)s\n"
+"                            total"
+msgstr ""
+
+#: templates/admin/backend/submit_line.html:9
+msgid "Save as new"
+msgstr ""
+
+#: templates/admin/backend/submit_line.html:11
+msgid "Save and add another"
+msgstr ""
+
+#: templates/admin/backend/submit_line.html:13
+msgid "Save and continue editing"
+msgstr ""
+
+#: templates/backend/eval.html:24
+msgid "请输入姓名"
+msgstr "Please input your name"
+
+#: templates/backend/eval.html:44
+msgid "请输入年龄"
+msgstr "Please input your age"
+
+#: templates/backend/eval.html:48
+msgid "电子邮箱"
+msgstr "Email address"
+
+#: templates/backend/eval.html:51
+msgid "请输入电子邮箱"
+msgstr "Please input your Email"
+
+#: templates/backend/eval.html:55
+msgid "联系电话"
+msgstr "Phone number"
+
+#: templates/backend/eval.html:57
+msgid "请输入联系电话"
+msgstr "Please input your Phone number"
+
+#: templates/backend/eval.html:62
+msgid "下一步"
+msgstr "Next"
+
+#: templates/backend/eval_result.html:60 templates/backend/eval_result.html:72
+msgid "得分"
+msgstr "Score"
+
+#: templates/backend/eval_result.html:81
+msgid "本次测试报告也同时以邮件形式发送到您填写的邮箱，请注意查收"
+msgstr ""
+"The test report will be also sent to the email box according to your "
+"completed address, please check"
+
+#: templates/backend/eval_result.html:89
+msgid "本套测试题需要支付才能查看完整报告，现在支付吗？需要支付："
+msgstr ""
+"Before you could see the complete test report, you must pay for it, do you "
+"want to pay for it now? Need to pay:"
+
+#: templates/backend/eval_result.html:89
+msgid "元"
+msgstr "RMB"
+
+#: templates/backend/eval_result.html:130
+msgid "支付完成前，请不要关闭此支付验证窗口。"
+msgstr ""
+"Please do not turn off this payment verification window before payment is "
+"done."
+
+#: templates/backend/eval_result.html:131
+msgid "支付完成后，请点击“支付完成”按钮。"
+msgstr "After payment is done, please click \"Payment finished\" button."
+
+#: templates/backend/eval_result.html:132
+msgid "若遇到问题请点击“支付遇到问题”重新支付。"
+msgstr "If an error occurs, please click \"Payment problem\" to pay again."
+
+#: templates/backend/eval_result.html:137
+msgid "支付遇到问题"
+msgstr "Payment problem"
+
+#: templates/backend/eval_result.html:139
+msgid "支付完成"
+msgstr "Payment finished"
+
+#: templates/backend/eval_test.html:32
+msgid "很抱歉，没有你要进行的测试题！"
+msgstr "Sorry, the test you want to take is not found!"
+
+#~ msgid "开始测试"
+#~ msgstr "Start"

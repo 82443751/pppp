@@ -1,0 +1,68 @@
+{% extends "backend/base.html" %}
+{% load i18n %}
+
+{% block title %}{{ title }}{% endblock %}
+
+
+{% block content %}
+    <div class="jumbotron">
+        <h2>{{ title }}</h2>
+
+        <p >{{ content }}</p>
+{% trans '姓名' as i_name%}
+        <form role="form" class="form-horizontal" method="post">
+            {% csrf_token %}
+            {% if err_info %}
+            <div class="form-group" style="color:#ff0000">
+                {{ err_info }}
+            </div>
+            {% endif %}
+            <div class="form-group">
+                <label for="id_eval_name" class="col-sm-3 control-label">{{ i_name }}:</label>
+
+                <div class="col-sm-8">
+                    <input type="text" class="form-control" name="eval_name" id="id_eval_name" placeholder="{% trans '请输入姓名'%}" value="{% if eval_name %}{{ eval_name }}{% endif %}"/>
+                </div>
+            </div>
+            <div class="form-group">
+                <label class="col-sm-3 control-label">{% trans '性别' %}:</label>
+
+                <div class="col-sm-2 radio">
+                    <label>
+                        <input type="radio" id="id_male" name="eval_sex" value="1" {% if eval_sex == '1' %} checked{% endif %}/>{% trans '男' %}
+                    </label></div>
+                <div class="col-sm-2 radio">
+                    <label>
+                        <input name="eval_sex" id="id_famale" type="radio" value="0"  {% if eval_sex == '0' %} checked{% endif %}/>{% trans '女' %}
+                    </label>
+                </div>
+            </div>
+            <div class="form-group">
+                <label for="id_eval_age" class="col-sm-3 control-label">{% trans '年龄' %}:</label>
+
+                <div class="col-sm-8">
+                    <input id="id_eval_age" type="text" name="eval_age" class="form-control" placeholder="{% trans '请输入年龄'%}" value="{% if eval_age %}{{ eval_age }}{% endif %}"/>
+                </div>
+            </div>
+            <div class="form-group">
+                <label for="id_eval_email" class="col-sm-3 control-label">{% trans '电子邮箱' %}:</label>
+
+                <div class="col-sm-8">
+                    <input id="id_eval_email" type="text" name="eval_email" class="form-control" placeholder="{% trans '请输入电子邮箱'%}" value="{% if eval_email %}{{ eval_email }}{% endif %}"/>
+                </div>
+            </div>
+            <div class="form-group">
+                <label for="id_eval_phone" class="col-sm-3 control-label">{% trans '联系电话' %}:</label>
+                <div class="col-sm-8">
+                    <input id="id_eval_phone" type="text" name="eval_phone" class="form-control" placeholder="{% trans '请输入联系电话'%}" value="{% if eval_phone %}{{ eval_phone }}{% endif %}"/>
+                </div>
+            </div>
+            <div class="form-group">
+                <div class="col-sm-offset-1  col-sm-13">
+                    <button type="submit" class="btn btn-primary">{% trans '下一步' %}</button>
+                </div>
+            </div>
+        </form>
+
+    </div>
+{% endblock %}
