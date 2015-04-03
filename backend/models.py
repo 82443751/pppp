@@ -53,7 +53,7 @@ class QuestionClass(models.Model):
             return self.en_content
 
     def __unicode__(self):
-        return self.zh_content
+        return self.zh_content+"-"+self.en_content
 
     class Meta:
         ordering = ['add_time']
@@ -218,7 +218,7 @@ class UserResult(models.Model):
         ret=[]
         for ex in se:
             if ex.explain.question_class:
-                ret.append(ex.explain.question_class)
+                ret.append(str(ex.explain.question_class)+':'+str(ex.score))
             else:
                 ret.append(str(ex.score))
         return ','.join(ret)
