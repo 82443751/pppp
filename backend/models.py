@@ -218,7 +218,7 @@ class UserResult(models.Model):
         ret=[]
         for ex in se:
             if ex.explain.question_class:
-                ret.append(ex.explain.question_class+':'+str(ex.score))
+                ret.append(ex.explain.question_class)
             else:
                 ret.append(str(ex.score))
         return ','.join(ret)
