@@ -269,7 +269,7 @@ def eval_full_result(request,eid=-1):
         #                                     questions.get_title(language), user_result.price, language)
 
         if not user_result.is_pay_detail:
-            pay_url = create_direct_pay_by_user(user_result.detail_our_trade_no, _(u'爱在人间测试报告'),
+            pay_url = create_direct_pay_by_user(user_result.detail_our_trade_no, __(u'爱在人间测试报告'),
                                             questions.get_title(language), user_result.detail_price, language)
     except Questions.DoesNotExist, e:
         eval_obj = {
@@ -319,7 +319,7 @@ def eval_detail_result(request,eid=-1):
         user_result= UserResult.objects.get(user=user, questions=questions)
         explains =UserScoreExplain.objects.filter(user_result=user_result)
         if not user_result.is_pay_detail:
-            pay_url = create_direct_pay_by_user(user_result.detail_our_trade_no, _(u'爱在人间测试报告'),
+            pay_url = create_direct_pay_by_user(user_result.detail_our_trade_no, __(u'爱在人间测试报告'),
                                             questions.get_title(language), user_result.detail_price, language)
     except Questions.DoesNotExist, e:
         eval_obj = {
@@ -517,7 +517,7 @@ def alipay_return(request):
         explains =UserScoreExplain.objects.filter(user_result=bill)# bill.score_explain.all()
         user_result=bill
         if not is_detail and  not user_result.is_pay_detail:
-            pay_url = create_direct_pay_by_user(user_result.detail_our_trade_no, _(u'爱在人间测试报告[详细]'),
+            pay_url = create_direct_pay_by_user(user_result.detail_our_trade_no, __(u'爱在人间测试报告[详细]'),
                                             bill.questions.get_title(language), user_result.detail_price, language)
         return render_to_response('backend/eval_result.html',
                               {
