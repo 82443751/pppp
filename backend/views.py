@@ -518,7 +518,7 @@ def alipay_return(request):
         user_result=bill
         if not is_detail and  not user_result.is_pay_detail:
             pay_url = create_direct_pay_by_user(user_result.detail_our_trade_no, _(u'爱在人间测试报告[详细]'),
-                                            questions.get_title(language), user_result.detail_price, language)
+                                            bill.questions.get_title(language), user_result.detail_price, language)
         return render_to_response('backend/eval_result.html',
                               {
                                "title": _(u"测试题"),
