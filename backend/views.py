@@ -264,9 +264,13 @@ def eval_full_result(request,eid=-1):
 
         user_result= UserResult.objects.get(user=user, questions=questions)
         explains =UserScoreExplain.objects.filter(user_result=user_result)
-        if not user_result.is_pay:
-            pay_url = create_direct_pay_by_user(user_result.our_trade_no,__( u'爱在人间测试报告'),
-                                            questions.get_title(language), user_result.price, language)
+        # if not user_result.is_pay:
+        #     pay_url = create_direct_pay_by_user(user_result.our_trade_no,__( u'爱在人间测试报告'),
+        #                                     questions.get_title(language), user_result.price, language)
+
+        if not user_result.is_pay_detail:
+            pay_url = create_direct_pay_by_user(user_result.detail_our_trade_no, _(u'爱在人间测试报告'),
+                                            questions.get_title(language), user_result.detail_price, language)
     except Questions.DoesNotExist, e:
         eval_obj = {
             "title": _(u"爱在人间测试报告"),
@@ -511,16 +515,20 @@ def alipay_return(request):
             "questions": bill.questions.question,
             }
         explains =UserScoreExplain.objects.filter(user_result=bill)# bill.score_explain.all()
-
+        user_result=bill
+        if not is_detail and  not user_result.is_pay_detail:
+            pay_url = create_direct_pay_by_user(user_result.detail_our_trade_no, _(u'爱在人间测试报告[详细]'),
+                                            questions.get_title(language), user_result.detail_price, language)
         return render_to_response('backend/eval_result.html',
                               {
                                "title": _(u"测试题"),
                                "user_result": bill,
-                               "is_need_pay": False,
+                               "is_need_pay": not is_detail and  not user_result.is_pay_detail,
                                "lang_set": False,
                                "is_detail": is_detail,
                                "explains": explains,
                                "eid": bill.questions.id,
+                               "pay_url": pay_url,
                                "lang_code": language,
                                "view_name": "alipay_return",
                                "eval": eval_obj})
