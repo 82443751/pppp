@@ -283,7 +283,7 @@ def eval_full_result(request,eid=-1):
                                "title": _(u"测试题"),
                                "user_result": user_result,
                                "explains":explains,
-                               "is_need_pay": not user_result.is_pay,
+                               "is_need_pay": not user_result.is_pay_detail,
                                "pay_url": pay_url,
                                "lang_set": False,
                                "eid": eid,
