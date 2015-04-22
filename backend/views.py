@@ -521,11 +521,14 @@ def alipay_return(request):
         explains =UserScoreExplain.objects.filter(user_result=bill)# bill.score_explain.all()
         user_result=bill
 
-        if is_detail and  not user_result.is_pay_detail:
+        if not is_detail and  not user_result.is_pay_detail:
             pay_url = create_direct_pay_by_user(user_result.detail_our_trade_no, __(u'爱在人间详细测试报告'),
                                             bill.questions.get_title(language), user_result.detail_price, language)
+        else:
+            pay_url=''
         return render_to_response('backend/eval_result.html',
                               {
+                               "button_text":  _(u"支付"),
                                "title": _(u"测试题"),
                                "user_result": bill,
                                "is_need_pay": not is_detail and  not user_result.is_pay_detail,
