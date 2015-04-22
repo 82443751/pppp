@@ -484,7 +484,7 @@ def alipay_return(request):
         tn = request.GET.get('out_trade_no')
         trade_no = request.GET.get('trade_no')
         logger1.info('Change the status of bill %s' % tn)
-        bill = UserResult.objects.get(our_trade_no=tn)
+        # bill = UserResult.objects.get(our_trade_no=tn)
         trade_status = request.GET.get('trade_status')
         logger1.info('the status changed to %s' % trade_status)
 
@@ -496,6 +496,7 @@ def alipay_return(request):
             urs=UserResult.objects.filter(detail_our_trade_no=tn)
             if urs.exists():
                 is_detail = True
+                bill = UserResult.objects.get(detail_our_trade_no=tn)
             else:
                 return HttpResponse("fail")
 
