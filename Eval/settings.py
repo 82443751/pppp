@@ -129,6 +129,7 @@ EMAIL_SUBJECT_PREFIX = u'[爱在人间]'
 EMAIL_PORT = 465
 EMAIL_HOST_USER = ''
 EMAIL_HOST_PASSWORD = ''
+
 EMAIL_HOST = 'smtp.exmail.qq.com'
 EMAIL_USE_SSL = True
 ZH_LANG_CODE = 'zh'
