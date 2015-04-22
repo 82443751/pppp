@@ -523,9 +523,11 @@ def alipay_return(request):
         user_result=bill
 
         if not is_detail and  not user_result.is_pay_detail:
+            for_detail=True
             pay_url = create_direct_pay_by_user(user_result.detail_our_trade_no, __(u'爱在人间详细测试报告'),
                                             bill.questions.get_title(language), user_result.detail_price, language)
         else:
+            for_detail=False
             pay_url=''
         return render_to_response('backend/eval_result.html',
                               {
@@ -534,9 +536,10 @@ def alipay_return(request):
                                "user_result": bill,
                                "is_need_pay": not is_detail and  not user_result.is_pay_detail,
                                "lang_set": False,
-                               "is_detail": is_detail,
+                               "is_detail": for_detail,
                                "explains": explains,
                                "eid": bill.questions.id,
+                               "price": bill.questions.detail_price,
                                "pay_url": pay_url,
                                "lang_code": language,
                                "view_name": "alipay_return",
@@ -649,7 +652,7 @@ def more_help(request):
     can_test = False
     eval_obj = {
         "title": _(u"爱在人间测试"),
-        "content": _(u"如果您想获得专业咨询师的协谈，请与爱在人间咨询与培训教育机构联系，联系方式为:")
+        "content": _(u"如果您想获得专业咨询师的协谈，请与爱在人间咨询与培训教育机构联系，联系方式为")
     }
     return render_to_response('backend/more_help.html',
 
