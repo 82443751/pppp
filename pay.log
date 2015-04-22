@@ -19,3 +19,14 @@ the status changed to TRADE_SUCCESS
 >> return url handler start
 Change the status of bill 12
 the status changed to TRADE_SUCCESS
+>> return url handler start
+Change the status of bill 20150422230649160
+the status changed to TRADE_SUCCESS
+>>notify url handler start...
+pass verification...
+Change the status of bill 20150422230649160
+the status of bill 20150422230649160 changed to TRADE_SUCCESS
+send mail to 82443751@qq.com:
+send mail to 82443751@qq.com fail:
+##info: Status of TRADE_SUCCESS
+return success
