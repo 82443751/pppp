@@ -654,7 +654,9 @@ def more_help(request):
     return render_to_response('backend/more_help.html',
 
                               {
+                               "title": _(u"获取更多帮助"),
                                "lang_set": False,
-                               "lang_code": request.COOKIES.get(settings.LANGUAGE_COOKIE_NAME, 'zh')},
+                               "lang_code": request.COOKIES.get(settings.LANGUAGE_COOKIE_NAME, 'zh',),
+                               "eval": eval_obj},
                               context_instance=RequestContext(request))
 
