@@ -103,9 +103,6 @@
                 {% if explains %}
                     <div>{% trans "本次测试报告也同时以邮件形式发送到您填写的邮箱，请注意查收" %}</div>
                 {% endif %}
-            {% if is_detail %}
-                <div><a href="/more_help/" >获取更多帮助</a></div>
-            {% endif %}
             </div>
             {% if is_need_pay %}
                 <br>
@@ -132,6 +129,8 @@
                     }
 
                 </script>
+                {% else %}
+                <div style="width: 100%;text-align: right"><a href="/more_help/" >获取更多帮助</a></div>
             {% endif %}
         </form>
 
