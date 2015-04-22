@@ -30,4 +30,6 @@ urlpatterns += i18n_patterns('',
                              url(r'^eval_full_result/(?P<eid>\d+)/$', views.eval_full_result, name="eval_full_result"),
                              url(r'^payment_error/$', views.payment_error, name="payment_error"),
                              url(r'^eval_question_autocomplete/$', views.eval_question_autocomplete, name="eval_question_autocomplete"),
+                             url(r'^more_help/$', views.more_help, name="more_help"),
+
 )

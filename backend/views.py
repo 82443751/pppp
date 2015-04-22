@@ -214,7 +214,11 @@ def eval_result(request,eid=-1):
                             use.save()
                         if explain.get_simple_content(language) and explain.get_content(language):
                             ret_explain[explain.question_class.id] = use
-        pay_url = create_direct_pay_by_user(user_result.our_trade_no, __(u'爱在人间测试报告'),
+        if user_result.price == 0:
+            pay_url = create_direct_pay_by_user(user_result.detail_our_trade_no, __(u'爱在人间测试报告'),
+                                            questions.get_title(language), user_result.detail_price, language)
+        else:
+            pay_url = create_direct_pay_by_user(user_result.our_trade_no, __(u'爱在人间测试报告'),
                                             questions.get_title(language), user_result.price, language)
     except Questions.DoesNotExist, e:
         eval_obj = {
@@ -516,7 +520,7 @@ def alipay_return(request):
             }
         explains =UserScoreExplain.objects.filter(user_result=bill)# bill.score_explain.all()
         user_result=bill
-        if not is_detail and  not user_result.is_pay_detail:
+        if is_detail and  not user_result.is_pay_detail:
             pay_url = create_direct_pay_by_user(user_result.detail_our_trade_no, __(u'爱在人间详细测试报告'),
                                             bill.questions.get_title(language), user_result.detail_price, language)
         return render_to_response('backend/eval_result.html',
@@ -629,4 +633,23 @@ def eval_get_questions_by_class(request):
             pass
     response.write(json.dumps(ret_qs))
     return response
+
+
+def more_help(request):
+    """
+    获取更多帮助
+    :param request:
+    :return:
+    """
+    can_test = False
+    eval_obj = {
+        "title": _(u"爱在人间测试"),
+        "content": _(u"如果您想获得专业咨询师的协谈，请与爱在人间咨询与培训教育机构联系，联系方式为:")
+    }
+    return render_to_response('backend/more_help.html',
+
+                              {
+                               "lang_set": False,
+                               "lang_code": request.COOKIES.get(settings.LANGUAGE_COOKIE_NAME, 'zh')},
+                              context_instance=RequestContext(request))
 

@@ -70,7 +70,15 @@
                     </div>
                     {% endif %}
                 {% endfor %}
+            {% if is_detail and explains %}
+                <h4>以下是完整的测试结果分析报告</h4>
+            {% endif %}
                 {% for value in explains %}
+
+                    <h3>{% trans "得分" %}：</h3>
+                    <div>{{ value.score }}</div>
+                    <h3>{% trans "说明" %}：</h3>
+                    <div>
                     {% if user_result.is_pay_detail %}
                             {% if lang_code == 'zh' %}
                                 {{ value.explain.zh_detail|safe }}
@@ -90,19 +98,18 @@
                                 {{ value.explain.en_simple_content|safe }}
                             {% endif %}
                     {% endif %}
-
-                    <h3>{% trans "得分" %}：</h3>
-                    <div>{{ value.score }}</div>
-                    <h3>{% trans "说明" %}：</h3>
-                    <div></div>
+                    </div>
                 {% endfor %}
                 {% if explains %}
                     <div>{% trans "本次测试报告也同时以邮件形式发送到您填写的邮箱，请注意查收" %}</div>
                 {% endif %}
+            {% if is_detail %}
+                <div><a href="/more_help/" >获取更多帮助</a></div>
+            {% endif %}
             </div>
             {% if is_need_pay %}
                 <br>
-                <p class="text-danger">{% if is_detail %}{% trans "本套测试题有更加详细的报告，需要支付才能查看，现在支付吗？需要支付：" %}{% else %}{% trans "本套测试题需要支付才能查看完整报告，现在支付吗？需要支付：" %}{% endif %}<span>{{ price }}{% trans "元" %}</span>
+                <p class="text-danger">{% if is_detail %}{% trans "本套测试题有更加详细的报告，需要支付才能查看，现在支付吗？需要支付：" %}{% else %}{% trans "本套测试题需要支付才能查看概略的报告，现在支付吗？需要支付：" %}{% endif %}<span>{{ price }}{% trans "元" %}</span>
                 </p>
                 <input type="hidden" id="hidden_eid" name="eid" value="{{ eval.questions.id }}">
                 <p><a class="btn btn-lg btn-success" target="_blank" id="id_pay_btn" href="{{ pay_url }}"

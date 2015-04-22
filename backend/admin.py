@@ -90,21 +90,21 @@ class QuestionsAdmin(admin.ModelAdmin):
                     kwargs["queryset"] = qs
             else:
                 kwargs["queryset"] = Question.objects.none()
-        # if db_field.name == "explain":
-        #     us = request.META['PATH_INFO'].split('/')
-        #     if unicode.isdigit(us[-2]):
-        #         qid = us[-2]
-        #         qs = Questions.objects.get(id=qid)
-        #         kwargs["queryset"] = qs.explain.all()
-        #     elif us[-2] == 'add':
-        #         qsid = request.POST.getlist('explain')
-        #         if not qsid:
-        #             kwargs["queryset"] = Question.objects.none()
-        #         else:
-        #             qs = ResultExplain.objects.filter(id__in=qsid)
-        #             kwargs["queryset"] = qs
-        #     else:
-        #         kwargs["queryset"] = ResultExplain.objects.none()
+        if db_field.name == "explain":
+            us = request.META['PATH_INFO'].split('/')
+            if unicode.isdigit(us[-2]):
+                qid = us[-2]
+                qs = Questions.objects.get(id=qid)
+                kwargs["queryset"] = qs.explain.all()
+            elif us[-2] == 'add':
+                qsid = request.POST.getlist('explain')
+                if not qsid:
+                    kwargs["queryset"] = Question.objects.none()
+                else:
+                    qs = ResultExplain.objects.filter(id__in=qsid)
+                    kwargs["queryset"] = qs
+            else:
+                kwargs["queryset"] = ResultExplain.objects.none()
         return super(QuestionsAdmin, self).formfield_for_manytomany(db_field, request, **kwargs)
 
 
