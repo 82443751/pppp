@@ -1,0 +1,175 @@
+{% extends "backend/base.html" %}
+{% load i18n %}
+{% load static %}
+{% block title %}{{ title }}{% endblock %}
+
+{% block custome_css %}
+    .popWindow {
+    background-color:#9D9D9D;
+    width: 100%;
+    height: 100%;
+    left: 0;
+    top: 0;
+    filter: alpha(opacity=50);
+    opacity: 0.5;
+    z-index: 1;
+    position: absolute;
+
+    }
+    .maskLayer {
+    background-color:#fff;
+    width: 510px;
+    padding: 20px;
+    height: 250px;
+    line-height: 30px;
+    color:#fff;
+    z-index: 2;
+    position: absolute;
+    text-align:center;
+    }
+
+    .pay_pw_icon{
+    margin-top: 10px;
+    float: left;
+    margin-right: 25px;
+    }
+    .pay_pw_text{
+    color:#666;
+    float: none;
+    margin-top: 10px;
+    margin-bottom:40px;
+    text-align:left;
+    }
+    .pay_pw_btn{
+    float:none;
+    margin-top:30px;
+    width:100%;
+    text-align:center;
+    }
+{% endblock %}
+{% block content %}
+    <div class="jumbotron">
+        <h2>{{ eval.title }}</h2>
+
+
+        <form id="test_form" role="form" action="" class="form-horizontal" name="test_form" method="post">
+            {% csrf_token %}
+            <div class="text-left">
+
+                {% for key,value in ret_explain.items %}
+                    {% if value.score != '' %}
+                    <h3>{% trans "得分" %}：</h3>
+                    <div>{{ value.score }}</div>
+                    <h3>{% trans "说明" %}：</h3>
+                    <div>
+                    {% if lang_code == 'zh' %}
+                        {{ value.explain.zh_simple_content|safe }}
+                    {% else %}
+                        {{ value.explain.en_simple_content|safe }}
+                    {% endif %}
+                    </div>
+                    {% endif %}
+                {% endfor %}
+            {% if is_detail and explains %}
+                <h4>以下是完整的测试结果分析报告</h4>
+            {% endif %}
+                {% for value in explains %}
+
+                    <h3>{% trans "得分" %}：</h3>
+                    <div>{{ value.score }}</div>
+                    <h3>{% trans "说明" %}：</h3>
+                    <div>
+                    {% if user_result.is_pay_detail %}
+                            {% if lang_code == 'zh' %}
+                                {{ value.explain.zh_detail|safe }}
+                            {% else %}
+                                {{ value.explain.en_detail|safe }}
+                            {% endif %}
+                    {% elif user_result.is_pay %}
+                            {% if lang_code == 'zh' %}
+                                {{ value.explain.zh_content|safe }}
+                            {% else %}
+                                {{ value.explain.en_content|safe }}
+                            {% endif %}
+                    {% else %}
+                            {% if lang_code == 'zh' %}
+                                {{ value.explain.zh_simple_content|safe }}
+                            {% else %}
+                                {{ value.explain.en_simple_content|safe }}
+                            {% endif %}
+                    {% endif %}
+                    </div>
+                {% endfor %}
+                {% if explains %}
+                    <div>{% trans "本次测试报告也同时以邮件形式发送到您填写的邮箱，请注意查收" %}</div>
+                {% endif %}
+            {% if is_detail %}
+                <div><a href="/more_help/" >获取更多帮助</a></div>
+            {% endif %}
+            </div>
+            {% if is_need_pay %}
+                <br>
+                <p class="text-danger">{% if is_detail %}{% trans "本套测试题有更加详细的报告，需要支付才能查看，现在支付吗？需要支付：" %}{% else %}{% trans "本套测试题需要支付才能查看概略的报告，现在支付吗？需要支付：" %}{% endif %}<span>{{ price }}{% trans "元" %}</span>
+                </p>
+                <input type="hidden" id="hidden_eid" name="eid" value="{{ eval.questions.id }}">
+                <p><a class="btn btn-lg btn-success" target="_blank" id="id_pay_btn" href="{{ pay_url }}"
+                      role="button">{{ button_text }}</a></p>
+                <script type="text/javascript" language="JavaScript">
+                    function submit() {
+                        var selected_value = '';
+                        alert('支付');
+                        var answer_count = 0;
+                        {#                        alert($('input:radio:checked').val());#}
+                        {#                        $('input:radio:checked').each(function(index,domEle){#}
+                        {#                            answer_count++;#}
+                        {#                        });#}
+                        {#                        if(question_count!=answer_count){#}
+                        {#                            alert('您有未选择的题，请全部做完后再提交！');#}
+                        {#                            return false;#}
+                        {#                        }#}
+                        {#                        $('#test_form').submit();#}
+                        return true;
+                    }
+
+                </script>
+            {% endif %}
+        </form>
+
+
+    </div>
+
+    <div id="payDialog" class="modal fade">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal"><span
+                            aria-hidden="true">&times;</span><span class="sr-only">Close</span></button>
+                    <h4 class="modal-title">{% trans "支付" %}</h4>
+                </div>
+                <div class="modal-body">
+                    <span class="pay_pw_icon"><img src="{% static 'imgs/working.gif' %}"/></span>
+
+                    <div class="pay_pw_text">
+                        {% trans "支付完成前，请不要关闭此支付验证窗口。" %}<br>
+                        {% trans "支付完成后，请点击“支付完成”按钮。" %}<br>
+                        {% trans "若遇到问题请点击“支付遇到问题”重新支付。" %}
+                    </div>
+                </div>
+                <div class="modal-footer" style="text-align: center;">
+                    <a class="btn btn-lg btn-warning" target="_self" href="javascript:void();" data-dismiss="modal"
+                       role="button">{% trans "支付遇到问题" %}</a>
+                    <a class="btn btn-lg btn-success" target="_self" href="{% url 'eval_full_result' eid=eid %}"
+                       role="button">{% trans "支付完成" %}</a>
+                </div>
+            </div>
+            <!-- /.modal-content -->
+        </div>
+        <!-- /.modal-dialog -->
+    </div><!-- /.modal -->
+
+{% endblock %}
+{% block ready_js %}
+    $('#id_pay_btn').click(function(){
+    $('#payDialog').modal('show');
+    });
+{% endblock %}

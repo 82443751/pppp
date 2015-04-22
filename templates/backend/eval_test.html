@@ -1,0 +1,60 @@
+{% extends "backend/base.html" %}
+{% load i18n %}
+
+{% block title %}{{ title }}{% endblock %}
+
+
+{% block content %}
+    <div class="jumbotron">
+        <h2>{{ eval.title }}</h2>
+
+        <p>{{ eval.content }}</p>
+
+        <form id="test_form" role="form" action="{% url 'eval_result' eid=eid%}" class="form-horizontal" name="test_form" method="post">{% csrf_token %}
+            <script type="text/javascript" language="JavaScript">
+                var question_count = 0;
+            </script>
+            {% for q in eval.questions.all %}
+                <script type="text/javascript" language="JavaScript">
+                    question_count++;
+                </script>
+                <div class="form-group">
+                    <h4 class="text-left">{{ forloop.counter }}.{% if lang_code == 'zh' %}{{ q.zh_content  }}{% else %}{{ q.en_content }}{% endif %}</h4>
+                    {% for o in q.options.all %}
+                        <div class="col-sm-2 radio">
+                            <label>
+                                <input type="radio" id="id_{{ forloop.parentloop.counter }}_{{ forloop.counter }}"
+                                       name="option_{{ q.id }}" value="{{ o.id }}"/>{% if lang_code == 'zh' %}{{ o.zh_content  }}{% else %}{{ o.en_content }}{% endif %}
+                </label></div>
+                    {% endfor %}
+        </div>
+            {% empty %}
+                <h3>{% trans "很抱歉，没有你要进行的测试题！" %}</h3>
+            {% endfor %}
+            {% if eval.questions %}
+                <input type="hidden" id="hidden_eid" name="eid" value="{{ eval.questions.id }}">
+                <p><a class="btn btn-lg btn-success" href="#submit" onclick="return mysubmit();"
+                      role="button">{{ button_text }}</a></p>
+                <script type="text/javascript" language="JavaScript">
+                    function mysubmit() {
+                        var selected_value = '';
+{#                        alert(question_count);#}
+                        var answer_count=0;
+{#                        alert($('input:radio:checked').val());#}
+                        $('input:radio:checked').each(function(index,domEle){
+                            answer_count++;
+                        });
+{#                        if(question_count!=answer_count){#}
+{#                            alert('您有未选择的题，请全部做完后再提交！');#}
+{#                            return false;#}
+{#                        }#}
+                        $('#test_form').submit();
+                        return true;
+                    }
+                </script>
+            {% endif %}
+    </form>
+
+
+    </div>
+{% endblock %}
