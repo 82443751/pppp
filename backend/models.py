@@ -134,6 +134,8 @@ class Questions(models.Model):
     price = models.FloatField(_(u"价格"), default=0)
     detail_price = models.FloatField(_(u"详细报告价格"), default=0)
     add_time = models.DateTimeField(_(u"添加时间"), auto_now_add=True)
+    min_score = models.CharField(_(u"无效区间低值"), max_length=2,default=u'', blank=True,  help_text=_(u"包含，若指定此值，则结果分数小于此值时会转到一个提示，表示结果无效"))
+    max_score = models.CharField(_(u"无效区间高值"), max_length=2,default=u'', blank=True, help_text=_(u"包含，若指定此值，则结果分数高于此值时会转到一个提示，表示结果无效"))
 
     def get_title(self, language=settings.CURRENT_LANG_CODE):
         if language.startswith(settings.ZH_LANG_CODE):

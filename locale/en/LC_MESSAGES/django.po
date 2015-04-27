@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2015-01-14 22:28+0800\n"
+"POT-Creation-Date: 2015-04-28 07:42+0800\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -21,224 +21,333 @@ msgstr ""
 msgid "爱在人间"
 msgstr "Agape"
 
-#: backend/models.py:22 backend/models.py:43 backend/models.py:63
+#: backend/models.py:24 backend/models.py:45 backend/models.py:65
 msgid "中文"
 msgstr "Chinese"
 
-#: backend/models.py:22
+#: backend/models.py:24
 msgid "示例：轻微"
 msgstr "Sample: Mild"
 
-#: backend/models.py:23 backend/models.py:44 backend/models.py:64
+#: backend/models.py:25 backend/models.py:46 backend/models.py:66
 msgid "英文"
 msgstr "English"
 
-#: backend/models.py:23
+#: backend/models.py:25
 msgid "Example: Lower"
 msgstr ""
 
-#: backend/models.py:24 backend/models.py:204
+#: backend/models.py:26 backend/models.py:257
 msgid "分值"
 msgstr "Weight"
 
-#: backend/models.py:24
+#: backend/models.py:26
 msgid "该选项的分值"
 msgstr "Weight for this option"
 
-#: backend/models.py:25 backend/models.py:45 backend/models.py:67
-#: backend/models.py:93 backend/models.py:125 backend/models.py:155
-#: backend/models.py:171 backend/models.py:191 backend/models.py:205
+#: backend/models.py:27 backend/models.py:47 backend/models.py:69
+#: backend/models.py:97 backend/models.py:136 backend/models.py:168
+#: backend/models.py:200 backend/models.py:241 backend/models.py:258
 msgid "添加时间"
 msgstr "Added Time"
 
-#: backend/models.py:38
+#: backend/models.py:40
 msgid "问题可选项"
 msgstr "Options for question"
 
-#: backend/models.py:58
+#: backend/models.py:60
 msgid "问题类别"
 msgstr "Question Class"
 
-#: backend/models.py:80 backend/models.py:121
+#: backend/models.py:82 backend/models.py:131
 msgid "问题"
 msgstr "Question"
 
-#: backend/models.py:86
+#: backend/models.py:88
 msgid "分值区间低值"
 msgstr "Lower value of this score range"
 
-#: backend/models.py:86 backend/models.py:87
+#: backend/models.py:88 backend/models.py:89
 msgid "包含"
 msgstr "Including"
 
-#: backend/models.py:87
+#: backend/models.py:89
 msgid "分值区间高值"
 msgstr "Upper value of this score range"
 
-#: backend/models.py:89
+#: backend/models.py:91 templates/backend/eval_result.html:84
 msgid "简要说明"
 msgstr "Simple descripiton"
 
-#: backend/models.py:90
+#: backend/models.py:92
 msgid "简要说明[英文]"
 msgstr "Simple descripiton [English]"
 
-#: backend/models.py:91
+#: backend/models.py:93 templates/backend/eval_result.html:94
 msgid "详细说明"
 msgstr "Detailed description"
 
-#: backend/models.py:92
+#: backend/models.py:94
 msgid "详细说明[英文]"
 msgstr "Detailed descripiton [English]"
 
-#: backend/models.py:112
+#: backend/models.py:95 templates/backend/eval_result.html:104
+#, fuzzy
+#| msgid "详细说明"
+msgid "更详细说明"
+msgstr "Detailed description"
+
+#: backend/models.py:96
+#, fuzzy
+#| msgid "详细说明[英文]"
+msgid "更详细说明[英文]"
+msgstr "Detailed descripiton [English]"
+
+#: backend/models.py:122
 msgid "分数说明"
 msgstr "Description for this score"
 
-#: backend/models.py:117
+#: backend/models.py:127
 msgid "标题"
 msgstr "Title"
 
-#: backend/models.py:118
+#: backend/models.py:128
 msgid "标题[英文]"
 msgstr "Title [English]"
 
-#: backend/models.py:119 templates/backend/eval_result.html:62
-#: templates/backend/eval_result.html:74
+#: backend/models.py:129 templates/backend/eval_result.html:63
+#: templates/backend/eval_result.html:116
 msgid "说明"
 msgstr "Description"
 
-#: backend/models.py:120
+#: backend/models.py:130
 msgid "说明[英文]"
 msgstr "Description [English]"
 
-#: backend/models.py:122
+#: backend/models.py:132
 msgid "分值说明"
 msgstr "Result Explain"
 
-#: backend/models.py:123
+#: backend/models.py:133
 msgid "是否需要付费"
 msgstr "Need payment or not"
 
-#: backend/models.py:124 backend/models.py:187
+#: backend/models.py:134 backend/models.py:190 backend/models.py:191
 msgid "价格"
 msgstr "Price"
 
-#: backend/models.py:144
+#: backend/models.py:135
+msgid "详细报告价格"
+msgstr ""
+
+#: backend/models.py:137
+#, fuzzy
+#| msgid "分值区间低值"
+msgid "无效区间低值"
+msgstr "Lower value of this score range"
+
+#: backend/models.py:137
+msgid "包含，若指定此值，则结果分数小于此值时会转到一个提示，表示结果无效"
+msgstr ""
+
+#: backend/models.py:138
+#, fuzzy
+#| msgid "分值区间高值"
+msgid "无效区间高值"
+msgstr "Upper value of this score range"
+
+#: backend/models.py:138
+msgid "包含，若指定此值，则结果分数高于此值时会转到一个提示，表示结果无效"
+msgstr ""
+
+#: backend/models.py:157
 msgid "单套测试"
 msgstr "Single test"
 
-#: backend/models.py:149 templates/backend/eval.html:32
+#: backend/models.py:162 templates/backend/eval.html:32
 msgid "男"
 msgstr "Male"
 
-#: backend/models.py:149 templates/backend/eval.html:36
+#: backend/models.py:162 templates/backend/eval.html:36
 msgid "女"
 msgstr "Female"
 
-#: backend/models.py:150 templates/backend/eval.html:12
+#: backend/models.py:163 templates/backend/eval.html:12
 msgid "姓名"
 msgstr "Name"
 
-#: backend/models.py:151 templates/backend/eval.html:28
+#: backend/models.py:164 templates/backend/eval.html:28
 msgid "性别"
 msgstr "Sex"
 
-#: backend/models.py:152 templates/backend/eval.html:41
+#: backend/models.py:165 templates/backend/eval.html:41
 msgid "年龄"
 msgstr "Age"
 
-#: backend/models.py:153
+#: backend/models.py:166
 msgid "邮箱"
 msgstr "Email address"
 
-#: backend/models.py:154
+#: backend/models.py:167
 msgid "手机"
 msgstr "Mobile phone number"
 
-#: backend/models.py:162
+#: backend/models.py:171 backend/models.py:173
+msgid "做过的测试"
+msgstr ""
+
+#: backend/models.py:179
 msgid "用户信息"
 msgstr "User information"
 
-#: backend/models.py:178
-msgid "用户选择"
-msgstr "User choice"
-
-#: backend/models.py:186
+#: backend/models.py:188
 msgid "是否已支付"
 msgstr "Has been paid or not"
 
-#: backend/models.py:188
+#: backend/models.py:189
+#, fuzzy
+#| msgid "是否已支付"
+msgid "是否已支付详细报告"
+msgstr "Has been paid or not"
+
+#: backend/models.py:192
 msgid "订单号"
 msgstr "order no."
 
-#: backend/models.py:189
+#: backend/models.py:193
 msgid "支付宝订单号"
 msgstr "Alipay order no."
 
-#: backend/models.py:190
+#: backend/models.py:194
 msgid "支付时间"
 msgstr "Payment time"
 
+#: backend/models.py:196
+msgid "详细报告订单号"
+msgstr ""
+
+#: backend/models.py:197
+#, fuzzy
+#| msgid "支付宝订单号"
+msgid "详细报告支付宝订单号"
+msgstr "Alipay order no."
+
 #: backend/models.py:198
+#, fuzzy
+#| msgid "支付时间"
+msgid "详细报告支付时间"
+msgstr "Payment time"
+
+#: backend/models.py:209
+#, fuzzy
+#| msgid "用户选择"
+msgid "查看用户选择的问题"
+msgstr "User choice"
+
+#: backend/models.py:215
+#, fuzzy
+#| msgid "分数说明"
+msgid "查看分数说明"
+msgstr "Description for this score"
+
+#: backend/models.py:228 templates/backend/eval_result.html:61
+#: templates/backend/eval_result.html:78
+#: templates/backend/eval_result.html:114
+msgid "得分"
+msgstr "Score"
+
+#: backend/models.py:232
 msgid "用户得分"
 msgstr "User score"
 
-#: backend/views.py:50
+#: backend/models.py:248
+msgid "用户选择"
+msgstr "User choice"
+
+#: backend/models.py:265
+msgid "用户的得分说明"
+msgstr ""
+
+#: backend/views.py:55
 msgid "请完整填写以下信息"
 msgstr "Please complete the following information"
 
-#: backend/views.py:53 backend/views.py:116 backend/views.py:161
-#: backend/views.py:214 backend/views.py:265 backend/views.py:355
-#: backend/views.py:382
+#: backend/views.py:58 backend/views.py:121 backend/views.py:180
+#: backend/views.py:209 backend/views.py:256 backend/views.py:320
+#: backend/views.py:370 backend/views.py:421 backend/views.py:569
+#: backend/views.py:599
 msgid "测试题"
 msgstr "Test"
 
-#: backend/views.py:54
+#: backend/views.py:59
 msgid "请先填写以下个人信息，然后点击下一步开始测试"
 msgstr ""
 "Please complete the following personnal information, and then click 'Next' "
 "to start this test"
 
-#: backend/views.py:92 backend/views.py:373
+#: backend/views.py:97 backend/views.py:590
 msgid "提交"
 msgstr "Submit"
 
-#: backend/views.py:96 backend/views.py:111 backend/views.py:207
-#: backend/views.py:376
+#: backend/views.py:101 backend/views.py:116 backend/views.py:249
+#: backend/views.py:593 backend/views.py:688
 msgid "爱在人间测试"
 msgstr "Agape test"
 
-#: backend/views.py:97
+#: backend/views.py:102
 msgid "请从主站相关测试题进入本测试"
 msgstr "Please access this test through the related test on our main website"
 
-#: backend/views.py:112 backend/views.py:208 backend/views.py:259
+#: backend/views.py:117 backend/views.py:250 backend/views.py:314
+#: backend/views.py:364 backend/views.py:415
 msgid "未找到你要进行的测试"
 msgstr "The test you want to take is not found"
 
-#: backend/views.py:143 backend/views.py:240
-#: templates/backend/eval_result.html:124
+#: backend/views.py:147 backend/views.py:282 backend/views.py:345
+#: backend/views.py:397 backend/views.py:568
+#: templates/backend/eval_result.html:183
 msgid "支付"
 msgstr "Payment"
 
-#: backend/views.py:160
+#: backend/views.py:179 backend/views.py:208
 msgid "返回"
 msgstr "Back"
 
-#: backend/views.py:162
+#: backend/views.py:181
 msgid "请全部填写完成后再点击'提交'按钮。"
 msgstr ""
 
-#: backend/views.py:258 backend/views.py:402
+#: backend/views.py:210
+msgid ""
+"对不起，根据您的选择无法得到有效结果，请重新答题或者联系爱在人间进行人工咨"
+"询。"
+msgstr ""
+
+#: backend/views.py:298 backend/views.py:313 backend/views.py:363
+#: backend/views.py:414 backend/views.py:619
 msgid "爱在人间测试报告"
 msgstr "Agape test report"
 
-#: backend/views.py:377
+#: backend/views.py:299
+#, fuzzy
+#| msgid "未找到你要进行的测试"
+msgid "未找到你已完成的测试"
+msgstr "The test you want to take is not found"
+
+#: backend/views.py:594
 msgid "支付错误，请从主站相关测试题进入本测试"
 msgstr ""
 "Payment error, Please access this test through the related test on our main "
 "website"
+
+#: backend/views.py:689
+msgid ""
+"如果您想获得专业咨询师的协谈，请与爱在人间咨询与培训教育机构联系，联系方式为"
+msgstr ""
+
+#: backend/views.py:694
+msgid "获取更多帮助"
+msgstr ""
 
 #: templates/admin/backend/404.html:4 templates/admin/backend/404.html.py:8
 msgid "Page not found"
@@ -623,45 +732,51 @@ msgstr "Please input your Phone number"
 msgid "下一步"
 msgstr "Next"
 
-#: templates/backend/eval_result.html:60 templates/backend/eval_result.html:72
-msgid "得分"
-msgstr "Score"
-
-#: templates/backend/eval_result.html:81
+#: templates/backend/eval_result.html:141
 msgid "本次测试报告也同时以邮件形式发送到您填写的邮箱，请注意查收"
 msgstr ""
 "The test report will be also sent to the email box according to your "
 "completed address, please check"
 
-#: templates/backend/eval_result.html:89
-msgid "本套测试题需要支付才能查看完整报告，现在支付吗？需要支付："
+#: templates/backend/eval_result.html:146
+#, fuzzy
+#| msgid "本套测试题需要支付才能查看完整报告，现在支付吗？需要支付："
+msgid "本套测试题有更加详细的报告，需要支付才能查看，现在支付吗？需要支付："
 msgstr ""
 "Before you could see the complete test report, you must pay for it, do you "
 "want to pay for it now? Need to pay:"
 
-#: templates/backend/eval_result.html:89
+#: templates/backend/eval_result.html:146
+#, fuzzy
+#| msgid "本套测试题需要支付才能查看完整报告，现在支付吗？需要支付："
+msgid "本套测试题需要支付才能查看概略的报告，现在支付吗？需要支付："
+msgstr ""
+"Before you could see the complete test report, you must pay for it, do you "
+"want to pay for it now? Need to pay:"
+
+#: templates/backend/eval_result.html:146
 msgid "元"
 msgstr "RMB"
 
-#: templates/backend/eval_result.html:130
+#: templates/backend/eval_result.html:189
 msgid "支付完成前，请不要关闭此支付验证窗口。"
 msgstr ""
 "Please do not turn off this payment verification window before payment is "
 "done."
 
-#: templates/backend/eval_result.html:131
+#: templates/backend/eval_result.html:190
 msgid "支付完成后，请点击“支付完成”按钮。"
 msgstr "After payment is done, please click \"Payment finished\" button."
 
-#: templates/backend/eval_result.html:132
+#: templates/backend/eval_result.html:191
 msgid "若遇到问题请点击“支付遇到问题”重新支付。"
 msgstr "If an error occurs, please click \"Payment problem\" to pay again."
 
-#: templates/backend/eval_result.html:137
+#: templates/backend/eval_result.html:196
 msgid "支付遇到问题"
 msgstr "Payment problem"
 
-#: templates/backend/eval_result.html:139
+#: templates/backend/eval_result.html:198
 msgid "支付完成"
 msgstr "Payment finished"
 
