@@ -74,7 +74,43 @@
                 <h4>以下是完整的测试结果分析报告</h4>
             {% endif %}
                 {% for value in explains %}
+                    {% if is_admin %}
+                        <h3>{% trans "得分" %}：</h3>
+                        <div>{{ value.score }}</div>
 
+
+
+                        {% if lang_code == 'zh' and value.explain.zh_simple_content or value.explain.en_simple_content%}
+                            <h3>{% trans "简要说明" %}：</h3>
+                        <div>
+                                {% if lang_code == 'zh' %}
+                                    {{ value.explain.zh_simple_content|safe }}
+                                {% else %}
+                                    {{ value.explain.en_simple_content|safe }}
+                                {% endif %}
+                            </div>
+                        {% endif %}
+                        {% if lang_code == 'zh' and value.explain.zh_content or  value.explain.en_content%}
+                            <h3>{% trans "详细说明" %}：</h3>
+                        <div>
+                                {% if lang_code == 'zh' %}
+                                    {{ value.explain.zh_content|safe }}
+                                {% else %}
+                                    {{ value.explain.en_content|safe }}
+                                {% endif %}
+                           </div>
+                         {% endif %}
+                        {% if lang_code == 'zh' and value.explain.zh_detail or  value.explain.en_detail%}
+                        <h3>{% trans "更详细说明" %}：</h3>
+                        <div>
+                                {% if lang_code == 'zh' %}
+                                    {{ value.explain.zh_detail|safe }}
+                                {% else %}
+                                    {{ value.explain.en_detail|safe }}
+                                {% endif %}
+                         </div>
+                        {% endif %}
+                    {% else %}
                     <h3>{% trans "得分" %}：</h3>
                     <div>{{ value.score }}</div>
                     <h3>{% trans "说明" %}：</h3>
@@ -99,8 +135,9 @@
                             {% endif %}
                     {% endif %}
                     </div>
+                    {% endif %}
                 {% endfor %}
-                {% if explains %}
+                {% if explains and not is_admin%}
                     <div>{% trans "本次测试报告也同时以邮件形式发送到您填写的邮箱，请注意查收" %}</div>
                 {% endif %}
             </div>

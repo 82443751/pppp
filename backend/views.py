@@ -157,6 +157,18 @@ def eval_result(request,eid=-1):
             }
         class_score = {}
         qs = questions.question.all()
+        invalid_min_score=questions.min_score
+        if invalid_min_score and invalid_min_score.strip().isdigit():
+            invalid_min_score=int(invalid_min_score.strip())
+        else:
+            invalid_min_score=None
+
+        invalid_max_score=questions.max_score
+        if invalid_max_score and invalid_max_score.strip().isdigit():
+            invalid_max_score=int(invalid_max_score.strip())
+        else:
+            invalid_max_score=None
+        is_invalid=True
         user_anwsers = []
         for q in qs:
             option_id = request.POST.get('option_' +str(q.id))
@@ -181,10 +193,22 @@ def eval_result(request,eid=-1):
                 else:
                     class_score[q.question_class.id] = score
 
+
             ua = UserAnwser.objects.create(user=user, questions=questions, question = q, option = option)
             user_anwsers.append(ua.id)
             # ua.save()
+        for qc,score in class_score.iteritems():
+            if (invalid_min_score is not None and score<= invalid_min_score) or (invalid_max_score is not None and score>=invalid_max_score):
+                is_invalid=True and is_invalid
+            else:
+                is_invalid=False and is_invalid
 
+        if is_invalid:
+            return render_to_response('backend/eval_test_error.html',
+                              {"button_text": _(u"返回"),
+                               "title": _(u"测试题"),
+                               "info": _(u"对不起，根据您的选择无法得到有效结果，请重新答题或者联系爱在人间进行人工咨询。"),
+                               })
         user_result= UserResult.objects.create(user=user, questions=questions)
         if user_anwsers:
             UserAnwser.objects.filter(id__in=user_anwsers).update(user_result=user_result)
@@ -266,7 +290,16 @@ def eval_full_result(request,eid=-1):
             "questions": questions.question,
             }
 
-        user_result= UserResult.objects.get(user=user, questions=questions)
+        user_results= UserResult.objects.filter(user=user, questions=questions).order_by('-id')[:1]
+        if user_results:
+            user_result=user_results[0]
+        else:
+            eval_obj = {
+                "title": _(u"爱在人间测试报告"),
+                "content": _(u"未找到你已完成的测试")
+            }
+            hrr = HttpResponseRedirect(reverse('eval_index', kwargs={'eid': eid}))
+            return hrr
         explains =UserScoreExplain.objects.filter(user_result=user_result)
         # if not user_result.is_pay:
         #     pay_url = create_direct_pay_by_user(user_result.our_trade_no,__( u'爱在人间测试报告'),
@@ -395,6 +428,7 @@ def eval_result_for_admin(request,user_id=-1,eid=-1, result_id=-1):
                                "price": questions.price,
                                "lang_code": language,
                                "view_name": "eval_result",
+                               "is_admin": True,
                                "eval": eval_obj})
 
 
