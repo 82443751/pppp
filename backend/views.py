@@ -41,7 +41,7 @@ def eval_index(request, eid=-1):
         eval_phone = request.POST.get('eval_phone', '')
         if eval_name != '' and eval_age != '' and eval_sex != '' and eval_email != '' and eval_phone != '':
             try:
-                users = EvalUser.objects.filter(name=eval_name, sex=eval_sex, email=eval_email, phone=eval_phone)
+                users = EvalUser.objects.filter(name=eval_name, sex=eval_sex, email=eval_email, phone=eval_phone,age=eval_age)
                 if users:
                     user=users[0]
                 else:

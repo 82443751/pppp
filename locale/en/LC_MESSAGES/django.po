@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2015-04-28 07:42+0800\n"
+"POT-Creation-Date: 2015-04-29 08:14+0800\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -92,16 +92,12 @@ msgid "详细说明[英文]"
 msgstr "Detailed descripiton [English]"
 
 #: backend/models.py:95 templates/backend/eval_result.html:104
-#, fuzzy
-#| msgid "详细说明"
 msgid "更详细说明"
-msgstr "Detailed description"
+msgstr "More detailed description"
 
 #: backend/models.py:96
-#, fuzzy
-#| msgid "详细说明[英文]"
 msgid "更详细说明[英文]"
-msgstr "Detailed descripiton [English]"
+msgstr "More detailed descripiton [English]"
 
 #: backend/models.py:122
 msgid "分数说明"
@@ -138,51 +134,51 @@ msgstr "Price"
 
 #: backend/models.py:135
 msgid "详细报告价格"
-msgstr ""
+msgstr "Price for detailed report"
 
 #: backend/models.py:137
-#, fuzzy
-#| msgid "分值区间低值"
 msgid "无效区间低值"
-msgstr "Lower value of this score range"
+msgstr "Lower invalid value of score range"
 
 #: backend/models.py:137
 msgid "包含，若指定此值，则结果分数小于此值时会转到一个提示，表示结果无效"
 msgstr ""
+"Including, if set this value, then when score is lower than this value, a "
+"webpage will be present showing it is an invalid score"
 
 #: backend/models.py:138
-#, fuzzy
-#| msgid "分值区间高值"
 msgid "无效区间高值"
-msgstr "Upper value of this score range"
+msgstr "Upper invalid value of this score range"
 
 #: backend/models.py:138
 msgid "包含，若指定此值，则结果分数高于此值时会转到一个提示，表示结果无效"
 msgstr ""
+"Including, if set this value, then when score is great than this value, a "
+"webpage will be present showing it is an invalid score"
 
 #: backend/models.py:157
 msgid "单套测试"
 msgstr "Single test"
 
-#: backend/models.py:162 templates/backend/eval.html:32
+#: backend/models.py:162 templates/backend/eval.html:33
 msgid "男"
 msgstr "Male"
 
-#: backend/models.py:162 templates/backend/eval.html:36
+#: backend/models.py:162 templates/backend/eval.html:37
 msgid "女"
 msgstr "Female"
 
-#: backend/models.py:163 templates/backend/eval.html:12
+#: backend/models.py:163 templates/backend/eval.html:13
 msgid "姓名"
 msgstr "Name"
 
-#: backend/models.py:164 templates/backend/eval.html:28
+#: backend/models.py:164 templates/backend/eval.html:29
 msgid "性别"
 msgstr "Sex"
 
-#: backend/models.py:165 templates/backend/eval.html:41
-msgid "年龄"
-msgstr "Age"
+#: backend/models.py:165 templates/backend/eval.html:42
+msgid "生日"
+msgstr "Birthday"
 
 #: backend/models.py:166
 msgid "邮箱"
@@ -205,10 +201,8 @@ msgid "是否已支付"
 msgstr "Has been paid or not"
 
 #: backend/models.py:189
-#, fuzzy
-#| msgid "是否已支付"
 msgid "是否已支付详细报告"
-msgstr "Has been paid or not"
+msgstr "Has been paid or not for detailed report"
 
 #: backend/models.py:192
 msgid "订单号"
@@ -224,31 +218,23 @@ msgstr "Payment time"
 
 #: backend/models.py:196
 msgid "详细报告订单号"
-msgstr ""
+msgstr "Order no. for detailed report"
 
 #: backend/models.py:197
-#, fuzzy
-#| msgid "支付宝订单号"
 msgid "详细报告支付宝订单号"
-msgstr "Alipay order no."
+msgstr "Alipay order no. for detailed report"
 
 #: backend/models.py:198
-#, fuzzy
-#| msgid "支付时间"
 msgid "详细报告支付时间"
-msgstr "Payment time"
+msgstr "Payment time for detailed report"
 
 #: backend/models.py:209
-#, fuzzy
-#| msgid "用户选择"
 msgid "查看用户选择的问题"
-msgstr "User choice"
+msgstr "Check user choice"
 
 #: backend/models.py:215
-#, fuzzy
-#| msgid "分数说明"
 msgid "查看分数说明"
-msgstr "Description for this score"
+msgstr "Check description for this score"
 
 #: backend/models.py:228 templates/backend/eval_result.html:61
 #: templates/backend/eval_result.html:78
@@ -266,7 +252,7 @@ msgstr "User choice"
 
 #: backend/models.py:265
 msgid "用户的得分说明"
-msgstr ""
+msgstr "Description for user score"
 
 #: backend/views.py:55
 msgid "请完整填写以下信息"
@@ -315,13 +301,15 @@ msgstr "Back"
 
 #: backend/views.py:181
 msgid "请全部填写完成后再点击'提交'按钮。"
-msgstr ""
+msgstr "Please finish all test questions before click 'Submit' button"
 
 #: backend/views.py:210
 msgid ""
 "对不起，根据您的选择无法得到有效结果，请重新答题或者联系爱在人间进行人工咨"
 "询。"
 msgstr ""
+"Sorry, a valid result can not be obtained based on your choices, please redo "
+"the test or contact with Agape to get related help from our staff"
 
 #: backend/views.py:298 backend/views.py:313 backend/views.py:363
 #: backend/views.py:414 backend/views.py:619
@@ -329,10 +317,8 @@ msgid "爱在人间测试报告"
 msgstr "Agape test report"
 
 #: backend/views.py:299
-#, fuzzy
-#| msgid "未找到你要进行的测试"
 msgid "未找到你已完成的测试"
-msgstr "The test you want to take is not found"
+msgstr "The test you have taken is not found"
 
 #: backend/views.py:594
 msgid "支付错误，请从主站相关测试题进入本测试"
@@ -344,10 +330,12 @@ msgstr ""
 msgid ""
 "如果您想获得专业咨询师的协谈，请与爱在人间咨询与培训教育机构联系，联系方式为"
 msgstr ""
+"If you want to get help from our professional counselor, please contacet "
+"Agape Counseling and Training Center by the following ways:"
 
 #: backend/views.py:694
 msgid "获取更多帮助"
-msgstr ""
+msgstr "Get more help"
 
 #: templates/admin/backend/404.html:4 templates/admin/backend/404.html.py:8
 msgid "Page not found"
@@ -704,31 +692,31 @@ msgstr ""
 msgid "Save and continue editing"
 msgstr ""
 
-#: templates/backend/eval.html:24
+#: templates/backend/eval.html:25
 msgid "请输入姓名"
 msgstr "Please input your name"
 
-#: templates/backend/eval.html:44
-msgid "请输入年龄"
+#: templates/backend/eval.html:45
+msgid "请输入生日"
 msgstr "Please input your age"
 
-#: templates/backend/eval.html:48
+#: templates/backend/eval.html:49
 msgid "电子邮箱"
 msgstr "Email address"
 
-#: templates/backend/eval.html:51
+#: templates/backend/eval.html:52
 msgid "请输入电子邮箱"
 msgstr "Please input your Email"
 
-#: templates/backend/eval.html:55
+#: templates/backend/eval.html:56
 msgid "联系电话"
 msgstr "Phone number"
 
-#: templates/backend/eval.html:57
+#: templates/backend/eval.html:58
 msgid "请输入联系电话"
 msgstr "Please input your Phone number"
 
-#: templates/backend/eval.html:62
+#: templates/backend/eval.html:63
 msgid "下一步"
 msgstr "Next"
 
@@ -739,19 +727,15 @@ msgstr ""
 "completed address, please check"
 
 #: templates/backend/eval_result.html:146
-#, fuzzy
-#| msgid "本套测试题需要支付才能查看完整报告，现在支付吗？需要支付："
 msgid "本套测试题有更加详细的报告，需要支付才能查看，现在支付吗？需要支付："
 msgstr ""
-"Before you could see the complete test report, you must pay for it, do you "
-"want to pay for it now? Need to pay:"
+"Before you could see the more detailed test report, you must pay for it, do "
+"you want to pay for it now? Need to pay:"
 
 #: templates/backend/eval_result.html:146
-#, fuzzy
-#| msgid "本套测试题需要支付才能查看完整报告，现在支付吗？需要支付："
 msgid "本套测试题需要支付才能查看概略的报告，现在支付吗？需要支付："
 msgstr ""
-"Before you could see the complete test report, you must pay for it, do you "
+"Before you could see the detailed test report, you must pay for it, do you "
 "want to pay for it now? Need to pay:"
 
 #: templates/backend/eval_result.html:146
@@ -783,6 +767,3 @@ msgstr "Payment finished"
 #: templates/backend/eval_test.html:32
 msgid "很抱歉，没有你要进行的测试题！"
 msgstr "Sorry, the test you want to take is not found!"
-
-#~ msgid "开始测试"
-#~ msgstr "Start"

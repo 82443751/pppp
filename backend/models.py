@@ -162,7 +162,7 @@ class EvalUser(models.Model):
     SEX_CHOICES = (('1', _(u'男')),('0', _(u'女')))
     name = models.CharField(_(u'姓名'), max_length=50, db_index=True)
     sex = models.CharField(_(u'性别'), max_length=1, choices=SEX_CHOICES, db_index=True)
-    age = models.CharField(_(u'年龄'), max_length=4)
+    age = models.CharField(_(u'生日'), max_length=14)
     email = models.EmailField(_(u'邮箱'))
     phone = models.CharField(_(u'手机'), max_length=20)
     add_time = models.DateTimeField(_(u"添加时间"), auto_now_add=True)

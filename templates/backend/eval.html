@@ -5,6 +5,7 @@
 
 
 {% block content %}
+    <script language="javascript" type="text/javascript" src="/static/WdatePicker.js"></script>
     <div class="jumbotron">
         <h2>{{ title }}</h2>
 
@@ -38,10 +39,10 @@
                 </div>
             </div>
             <div class="form-group">
-                <label for="id_eval_age" class="col-sm-3 control-label">{% trans '年龄' %}:</label>
+                <label for="id_eval_age" class="col-sm-3 control-label">{% trans '生日' %}:</label>
 
                 <div class="col-sm-8">
-                    <input id="id_eval_age" type="text" name="eval_age" class="form-control" placeholder="{% trans '请输入年龄'%}" value="{% if eval_age %}{{ eval_age }}{% endif %}"/>
+                    <input id="id_eval_age" type="text" name="eval_age" onfocus="WdatePicker({startDate:'1980-01-01',readOnly:true,isShowToday:false,isShowOK:false,isShowClear:false,skin:'whyGreen',maxDate:'%y-%M-%d'})" class="form-control" placeholder="{% trans '请输入生日'%}" value="{% if eval_age %}{{ eval_age }}{% endif %}"/>
                 </div>
             </div>
             <div class="form-group">
