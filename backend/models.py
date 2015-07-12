@@ -18,7 +18,6 @@ from django.utils.translation import ugettext_lazy as _
 from Eval import settings
 
 
-
 class Option(models.Model):
     u"""问题的可选项"""
     zh_content = models.CharField(_(u"中文"), max_length=300, help_text=_(u"示例：轻微"))
@@ -53,7 +52,7 @@ class QuestionClass(models.Model):
             return self.en_content
 
     def __unicode__(self):
-        return self.zh_content+"-"+self.en_content
+        return self.zh_content + "-" + self.en_content
 
     class Meta:
         ordering = ['add_time']
@@ -84,16 +83,16 @@ class Question(models.Model):
 
 class ResultExplain(models.Model):
     u"""结果分数说明"""
-    question_class = models.ForeignKey(QuestionClass,blank=True, null=True, db_index=True)
+    question_class = models.ForeignKey(QuestionClass, blank=True, null=True, db_index=True)
     min_score = models.IntegerField(_(u"分值区间低值"), help_text=_(u"包含"))
     max_score = models.IntegerField(_(u"分值区间高值"), help_text=_(u"包含"))
     # user_score = models.IntegerField(_(u"用户得分"), help_text=u"", blank=True, null=True, db_index=True)
-    zh_simple_content = RichTextField(_(u"简要说明"),config_name='awesome_ckeditor', blank=True, null=True)
-    en_simple_content = RichTextField(_(u"简要说明[英文]"),config_name='awesome_ckeditor', blank=True, null=True)
-    zh_content = RichTextField(_(u"详细说明"),config_name='awesome_ckeditor', blank=True, null=True)
-    en_content = RichTextField(_(u"详细说明[英文]"),config_name='awesome_ckeditor', blank=True, null=True)
-    zh_detail = RichTextField(_(u"更详细说明"),config_name='awesome_ckeditor', blank=True, null=True)
-    en_detail = RichTextField(_(u"更详细说明[英文]"),config_name='awesome_ckeditor', blank=True, null=True)
+    zh_simple_content = RichTextField(_(u"简要说明"), config_name='awesome_ckeditor', blank=True, null=True)
+    en_simple_content = RichTextField(_(u"简要说明[英文]"), config_name='awesome_ckeditor', blank=True, null=True)
+    zh_content = RichTextField(_(u"详细说明"), config_name='awesome_ckeditor', blank=True, null=True)
+    en_content = RichTextField(_(u"详细说明[英文]"), config_name='awesome_ckeditor', blank=True, null=True)
+    zh_detail = RichTextField(_(u"更详细说明"), config_name='awesome_ckeditor', blank=True, null=True)
+    en_detail = RichTextField(_(u"更详细说明[英文]"), config_name='awesome_ckeditor', blank=True, null=True)
     add_time = models.DateTimeField(_(u"添加时间"), auto_now_add=True)
 
     def get_simple_content(self, language=settings.CURRENT_LANG_CODE):
@@ -128,14 +127,17 @@ class Questions(models.Model):
     en_title = models.CharField(_(u"标题[英文]"), max_length=300, db_index=True)
     zh_content = models.CharField(_(u"说明"), max_length=500, blank=True, null=True)
     en_content = models.CharField(_(u"说明[英文]"), max_length=500, blank=True, null=True)
-    question = models.ManyToManyField(Question,verbose_name=_(u'问题'))
-    explain = models.ManyToManyField(ResultExplain, verbose_name=_( u'分值说明'))
+    question = models.ManyToManyField(Question, verbose_name=_(u'问题'))
+    explain = models.ManyToManyField(ResultExplain, verbose_name=_(u'分值说明'), null=True, blank=True)
     is_need_pay = models.BooleanField(_(u"是否需要付费"), default=False, db_index=True)
+    is_result_from_class = models.BooleanField(_(u"是否以问题分类作结果"), default=False, db_index=True)
     price = models.FloatField(_(u"价格"), default=0)
     detail_price = models.FloatField(_(u"详细报告价格"), default=0)
     add_time = models.DateTimeField(_(u"添加时间"), auto_now_add=True)
-    min_score = models.CharField(_(u"无效区间低值"), max_length=2,default=u'', blank=True,  help_text=_(u"包含，若指定此值，则结果分数小于此值时会转到一个提示，表示结果无效"))
-    max_score = models.CharField(_(u"无效区间高值"), max_length=2,default=u'', blank=True, help_text=_(u"包含，若指定此值，则结果分数高于此值时会转到一个提示，表示结果无效"))
+    min_score = models.CharField(_(u"无效区间低值"), max_length=2, default=u'', blank=True,
+                                 help_text=_(u"包含，若指定此值，则结果分数小于此值时会转到一个提示，表示结果无效"))
+    max_score = models.CharField(_(u"无效区间高值"), max_length=2, default=u'', blank=True,
+                                 help_text=_(u"包含，若指定此值，则结果分数高于此值时会转到一个提示，表示结果无效"))
 
     def get_title(self, language=settings.CURRENT_LANG_CODE):
         if language.startswith(settings.ZH_LANG_CODE):
@@ -159,7 +161,7 @@ class Questions(models.Model):
 
 class EvalUser(models.Model):
     u"""测试用户信息"""
-    SEX_CHOICES = (('1', _(u'男')),('0', _(u'女')))
+    SEX_CHOICES = (('1', _(u'男')), ('0', _(u'女')))
     name = models.CharField(_(u'姓名'), max_length=50, db_index=True)
     sex = models.CharField(_(u'性别'), max_length=1, choices=SEX_CHOICES, db_index=True)
     age = models.CharField(_(u'生日'), max_length=14)
@@ -169,33 +171,35 @@ class EvalUser(models.Model):
 
     def get_mytest(self):
         return u'<a href="/admin/backend/userresult/?user__id=%s" target="_self">%s</a>' % (self.id, _(u'做过的测试'))
-    get_mytest.allow_tags=True
-    get_mytest.short_description=  _(u'做过的测试')
+
+    get_mytest.allow_tags = True
+    get_mytest.short_description = _(u'做过的测试')
+
     def __unicode__(self):
         return u"%s-%s[%s]" % (self.name, self.sex, self.phone)
 
     class Meta:
-        ordering = ['add_time',]
+        ordering = ['add_time', ]
         verbose_name = verbose_name_plural = _(u"用户信息")
-
 
 
 class UserResult(models.Model):
     u"""某套题用户的选择"""
     user = models.ForeignKey(EvalUser, db_index=True)
     questions = models.ForeignKey(Questions, db_index=True)
-    score_explain = models.ManyToManyField(ResultExplain, through="UserScoreExplain", through_fields=('user_result', 'explain'))
+    score_explain = models.ManyToManyField(ResultExplain, through="UserScoreExplain",
+                                           through_fields=('user_result', 'explain'), null=True, blank=True)
     is_pay = models.BooleanField(_(u"是否已支付"), default=False, db_index=True)
-    is_pay_detail= models.BooleanField(_(u"是否已支付详细报告"), default=False, db_index=True)
+    is_pay_detail = models.BooleanField(_(u"是否已支付详细报告"), default=False, db_index=True)
     price = models.FloatField(_(u"价格"), default=0)
     detail_price = models.FloatField(_(u"价格"), default=0)
-    our_trade_no = models.CharField(_(u"订单号"),max_length=50,blank=True,null=True, default='')
-    trade_no = models.CharField(_(u"支付宝订单号"),max_length=100,blank=True,null=True, default='')
-    pay_time = models.DateTimeField(_(u"支付时间"), auto_now_add=True,default=datetime.now)
+    our_trade_no = models.CharField(_(u"订单号"), max_length=50, blank=True, null=True, default='')
+    trade_no = models.CharField(_(u"支付宝订单号"), max_length=100, blank=True, null=True, default='')
+    pay_time = models.DateTimeField(_(u"支付时间"), default=datetime.now)
 
-    detail_our_trade_no = models.CharField(_(u"详细报告订单号"),max_length=50,blank=True,null=True, default='')
-    detail_trade_no = models.CharField(_(u"详细报告支付宝订单号"),max_length=100,blank=True,null=True, default='')
-    detail_pay_time = models.DateTimeField(_(u"详细报告支付时间"), auto_now_add=True,default=datetime.now)
+    detail_our_trade_no = models.CharField(_(u"详细报告订单号"), max_length=50, blank=True, null=True, default='')
+    detail_trade_no = models.CharField(_(u"详细报告支付宝订单号"), max_length=100, blank=True, null=True, default='')
+    detail_pay_time = models.DateTimeField(_(u"详细报告支付时间"), default=datetime.now)
 
     add_time = models.DateTimeField(_(u"添加时间"), auto_now_add=True)
 
@@ -203,24 +207,27 @@ class UserResult(models.Model):
         return u"%s-%s[%s][%s]" % (self.user, self.questions, self.is_pay, self.id)
 
     def get_anwser_url(self):
-        return format_html(u'<a href="/admin/backend/useranwser/?user_result__id='+str(self.id)+'" target="_blank">'+(u'查看问题')+'</a>')
+        return format_html(
+            u'<a href="/admin/backend/useranwser/?user_result__id=' + str(self.id) + '" target="_blank">' + (
+            u'查看问题') + '</a>')
 
     get_anwser_url.allow_tags = True
     get_anwser_url.short_description = _(u'查看用户选择的问题')
 
     def get_explain_url(self):
-        return format_html(u'<a href="/zh/eval_result_for_admin/'+str(self.user.id)+'/'+str(self.questions.id)+'/'+str(self.id)+'/" target="_blank">'+(u'查看分数说明')+'</a>')
+        return format_html(
+            u'<a href="/zh/eval_result_for_admin/' + str(self.user.id) + '/' + str(self.questions.id) + '/' + str(
+                self.id) + '/" target="_blank">' + (u'查看分数说明') + '</a>')
 
     get_explain_url.allow_tags = True
     get_explain_url.short_description = _(u'查看分数说明')
 
-
     def get_scores(self):
-        se =UserScoreExplain.objects.filter(user_result=self)# self.score_explain.all()
-        ret=[]
+        se = UserScoreExplain.objects.filter(user_result=self)  # self.score_explain.all()
+        ret = []
         for ex in se:
             if ex.explain.question_class:
-                ret.append(str(ex.explain.question_class)+':'+str(ex.score))
+                ret.append(str(ex.explain.question_class) + ':' + str(ex.score))
             else:
                 ret.append(str(ex.score))
         return ','.join(ret)
@@ -231,13 +238,14 @@ class UserResult(models.Model):
         ordering = ['add_time', 'user', 'is_pay']
         verbose_name = verbose_name_plural = _(u"用户得分")
 
+
 class UserAnwser(models.Model):
     u"""某套题用户的选择"""
     user = models.ForeignKey(EvalUser, db_index=True)
     questions = models.ForeignKey(Questions, db_index=True)
     question = models.ForeignKey(Question, db_index=True)
     option = models.ForeignKey(Option, db_index=True)
-    user_result= models.ForeignKey(UserResult, null=True,blank=True,db_index=True)
+    user_result = models.ForeignKey(UserResult, null=True, blank=True, db_index=True)
     add_time = models.DateTimeField(_(u"添加时间"), auto_now_add=True)
 
     def __unicode__(self):
@@ -252,15 +260,15 @@ class UserScoreExplain(models.Model):
     '''
     用户的得分说明
     '''
-    user_result= models.ForeignKey(UserResult)
+    user_result = models.ForeignKey(UserResult)
     explain = models.ForeignKey(ResultExplain)
-    score = models.IntegerField(verbose_name=_(u"分值"),default=-1,blank=True)
+    score = models.IntegerField(verbose_name=_(u"分值"), default=-1, blank=True)
+    question_class = models.ForeignKey(QuestionClass, blank=True, null=True, db_index=True)
     add_time = models.DateTimeField(_(u"添加时间"), auto_now_add=True, blank=True, null=True)
 
     def __unicode__(self):
         return u"%s-%s" % (self.user_result, self.score)
 
     class Meta:
-        ordering = ['add_time',]
+        ordering = ['add_time', ]
         verbose_name = verbose_name_plural = _(u"用户的得分说明")
-

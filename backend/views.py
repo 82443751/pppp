@@ -41,9 +41,10 @@ def eval_index(request, eid=-1):
         eval_phone = request.POST.get('eval_phone', '')
         if eval_name != '' and eval_age != '' and eval_sex != '' and eval_email != '' and eval_phone != '':
             try:
-                users = EvalUser.objects.filter(name=eval_name, sex=eval_sex, email=eval_email, phone=eval_phone,age=eval_age)
+                users = EvalUser.objects.filter(name=eval_name, sex=eval_sex, email=eval_email, phone=eval_phone,
+                                                age=eval_age)
                 if users:
-                    user=users[0]
+                    user = users[0]
                 else:
                     user = EvalUser(name=eval_name, age=eval_age, sex=eval_sex, email=eval_email, phone=eval_phone)
                     user.save()
@@ -66,7 +67,7 @@ def eval_index(request, eid=-1):
         "eval_phone": eval_phone,
         "view_name": "eval_index",
         "lang_code": request.COOKIES.get(settings.LANGUAGE_COOKIE_NAME, 'zh'),
-    },context_instance=RequestContext(request))
+    }, context_instance=RequestContext(request))
     # return render_to_response('backend/eval.html',
     # {
     # 'err_info': err_info,
@@ -127,12 +128,16 @@ def eval_test(request, eid=-1):
                                "eval": eval_obj},
                               context_instance=RequestContext(request))
 
+
 def gen_order_no():
     import time
     import random
-    on ='%s%s' % ( time.strftime('%Y%m%d%H%M%S'),random.randint(100,999))
+
+    on = '%s%s' % (time.strftime('%Y%m%d%H%M%S'), random.randint(100, 999))
     return on
-def eval_result(request,eid=-1):
+
+
+def eval_result(request, eid=-1):
     """
     显示测试题的结果
     :param request:
@@ -146,7 +151,7 @@ def eval_result(request,eid=-1):
 
     btn_text = _(u"支付")
     language = translation.get_language()
-    logger1.debug("language:"+language)
+    logger1.debug("language:" + language)
     try:
         user = EvalUser.objects.get(id=user_id)
         questions = Questions.objects.get(id=eid)
@@ -154,32 +159,32 @@ def eval_result(request,eid=-1):
             "title": questions.get_title(language),
             "content": questions.get_content(language),
             "questions": questions.question,
-            }
+        }
         class_score = {}
         qs = questions.question.all()
-        invalid_min_score=questions.min_score
+        invalid_min_score = questions.min_score
         if invalid_min_score and invalid_min_score.strip().isdigit():
-            invalid_min_score=int(invalid_min_score.strip())
+            invalid_min_score = int(invalid_min_score.strip())
         else:
-            invalid_min_score=None
+            invalid_min_score = None
 
-        invalid_max_score=questions.max_score
+        invalid_max_score = questions.max_score
         if invalid_max_score and invalid_max_score.strip().isdigit():
-            invalid_max_score=int(invalid_max_score.strip())
+            invalid_max_score = int(invalid_max_score.strip())
         else:
-            invalid_max_score=None
-        is_invalid=True
+            invalid_max_score = None
+        is_invalid = True
         user_anwsers = []
         for q in qs:
-            option_id = request.POST.get('option_' +str(q.id))
+            option_id = request.POST.get('option_' + str(q.id))
             if option_id is None:
                 if user_anwsers:
                     UserAnwser.objects.filter(id__in=user_anwsers).delete()
                 return render_to_response('backend/eval_test_error.html',
-                              {"button_text": _(u"返回"),
-                               "title": _(u"测试题"),
-                               "info": _(u"请全部填写完成后再点击'提交'按钮。"),
-                               })
+                                          {"button_text": _(u"返回"),
+                                           "title": _(u"测试题"),
+                                           "info": _(u"请全部填写完成后再点击'提交'按钮。"),
+                                           })
             option = Option.objects.get(id=option_id)
             score = option.score
             if q.question_class is None:
@@ -193,23 +198,23 @@ def eval_result(request,eid=-1):
                 else:
                     class_score[q.question_class.id] = score
 
-
-            ua = UserAnwser.objects.create(user=user, questions=questions, question = q, option = option)
+            ua = UserAnwser.objects.create(user=user, questions=questions, question=q, option=option)
             user_anwsers.append(ua.id)
             # ua.save()
-        for qc,score in class_score.iteritems():
-            if (invalid_min_score is not None and score<= invalid_min_score) or (invalid_max_score is not None and score>=invalid_max_score):
-                is_invalid=True and is_invalid
+        for qc, score in class_score.iteritems():
+            if (invalid_min_score is not None and score <= invalid_min_score) or (
+                    invalid_max_score is not None and score >= invalid_max_score):
+                is_invalid = True and is_invalid
             else:
-                is_invalid=False and is_invalid
+                is_invalid = False and is_invalid
 
         if is_invalid:
             return render_to_response('backend/eval_test_error.html',
-                              {"button_text": _(u"返回"),
-                               "title": _(u"测试题"),
-                               "info": _(u"对不起，根据您的选择无法得到有效结果，请重新答题或者联系爱在人间进行人工咨询。"),
-                               })
-        user_result= UserResult.objects.create(user=user, questions=questions)
+                                      {"button_text": _(u"返回"),
+                                       "title": _(u"测试题"),
+                                       "info": _(u"对不起，根据您的选择无法得到有效结果，请重新答题或者联系爱在人间进行人工咨询。"),
+                                       })
+        user_result = UserResult.objects.create(user=user, questions=questions)
         if user_anwsers:
             UserAnwser.objects.filter(id__in=user_anwsers).update(user_result=user_result)
         # if created:
@@ -218,32 +223,33 @@ def eval_result(request,eid=-1):
         user_result.detail_price = questions.detail_price
         user_result.detail_our_trade_no = gen_order_no()
         user_result.save()
-        ret_explain={}
+        ret_explain = {}
         for explain in questions.explain.all():
             if explain.question_class is None and -1 in class_score:
                 # explain.user_score=class_score[-1]
                 if explain.max_score >= class_score[-1] >= explain.min_score:
-                    use,created=UserScoreExplain.objects.get_or_create(user_result=user_result,explain=explain)
+                    use, created = UserScoreExplain.objects.get_or_create(user_result=user_result, explain=explain)
                     if created:
-                        use.score=class_score[-1]
+                        use.score = class_score[-1]
                         use.save()
                     if explain.get_simple_content(language) and explain.get_content(language):
-                        ret_explain[-1]=use
+                        ret_explain[-1] = use
             elif explain.question_class is not None:
                 if explain.question_class.id in class_score:
-                    if explain.max_score >= class_score[explain.question_class.id] >= explain.min_score:
-                        use,created=UserScoreExplain.objects.get_or_create(user_result=user_result,explain=explain)
+                    if (explain.max_score >= class_score[explain.question_class.id] >= explain.min_score) or questions.is_result_from_class:
+                        use, created = UserScoreExplain.objects.get_or_create(user_result=user_result, explain=explain)
                         if created:
-                            use.score=class_score[explain.question_class.id]
+                            use.score = class_score[explain.question_class.id]
+                            use.question_class = explain.question_class
                             use.save()
                         if explain.get_simple_content(language) and explain.get_content(language):
                             ret_explain[explain.question_class.id] = use
         if user_result.price == 0:
             pay_url = create_direct_pay_by_user(user_result.detail_our_trade_no, __(u'爱在人间测试报告'),
-                                            questions.get_title(language), user_result.detail_price, language)
+                                                questions.get_title(language), user_result.detail_price, language)
         else:
             pay_url = create_direct_pay_by_user(user_result.our_trade_no, __(u'爱在人间测试报告'),
-                                            questions.get_title(language), user_result.price, language)
+                                                questions.get_title(language), user_result.price, language)
     except Questions.DoesNotExist, e:
         eval_obj = {
             "title": _(u"爱在人间测试"),
@@ -255,7 +261,7 @@ def eval_result(request,eid=-1):
                               {"button_text": btn_text,
                                "title": _(u"测试题"),
                                "user_result": user_result,
-                               "ret_explain":ret_explain,
+                               "ret_explain": ret_explain,
                                "is_need_pay": questions.is_need_pay,
                                "lang_set": False,
                                "eid": eid,
@@ -266,8 +272,7 @@ def eval_result(request,eid=-1):
                                "eval": eval_obj})
 
 
-
-def eval_full_result(request,eid=-1):
+def eval_full_result(request, eid=-1):
     """
     显示测试题的完整结果
     :param request:
@@ -288,11 +293,11 @@ def eval_full_result(request,eid=-1):
             "title": questions.get_title(language),
             "content": questions.get_content(language),
             "questions": questions.question,
-            }
+        }
 
-        user_results= UserResult.objects.filter(user=user, questions=questions).order_by('-id')[:1]
+        user_results = UserResult.objects.filter(user=user, questions=questions).order_by('-id')[:1]
         if user_results:
-            user_result=user_results[0]
+            user_result = user_results[0]
         else:
             eval_obj = {
                 "title": _(u"爱在人间测试报告"),
@@ -300,14 +305,14 @@ def eval_full_result(request,eid=-1):
             }
             hrr = HttpResponseRedirect(reverse('eval_index', kwargs={'eid': eid}))
             return hrr
-        explains =UserScoreExplain.objects.filter(user_result=user_result)
+        explains = UserScoreExplain.objects.filter(user_result=user_result)
         # if not user_result.is_pay:
         #     pay_url = create_direct_pay_by_user(user_result.our_trade_no,__( u'爱在人间测试报告'),
         #                                     questions.get_title(language), user_result.price, language)
 
         if not user_result.is_pay_detail:
             pay_url = create_direct_pay_by_user(user_result.detail_our_trade_no, __(u'爱在人间测试报告'),
-                                            questions.get_title(language), user_result.detail_price, language)
+                                                questions.get_title(language), user_result.detail_price, language)
     except Questions.DoesNotExist, e:
         eval_obj = {
             "title": _(u"爱在人间测试报告"),
@@ -319,7 +324,7 @@ def eval_full_result(request,eid=-1):
                               {"button_text": btn_text,
                                "title": _(u"测试题"),
                                "user_result": user_result,
-                               "explains":explains,
+                               "explains": explains,
                                "is_need_pay": not user_result.is_pay_detail,
                                "pay_url": pay_url,
                                "lang_set": False,
@@ -330,7 +335,7 @@ def eval_full_result(request,eid=-1):
                                "eval": eval_obj})
 
 
-def eval_detail_result(request,eid=-1):
+def eval_detail_result(request, eid=-1):
     """
     显示测试题的更详细结果
     :param request:
@@ -351,13 +356,13 @@ def eval_detail_result(request,eid=-1):
             "title": questions.get_title(language),
             "content": questions.get_content(language),
             "questions": questions.question,
-            }
+        }
 
-        user_result= UserResult.objects.get(user=user, questions=questions)
-        explains =UserScoreExplain.objects.filter(user_result=user_result)
+        user_result = UserResult.objects.get(user=user, questions=questions)
+        explains = UserScoreExplain.objects.filter(user_result=user_result)
         if not user_result.is_pay_detail:
             pay_url = create_direct_pay_by_user(user_result.detail_our_trade_no, __(u'爱在人间测试报告'),
-                                            questions.get_title(language), user_result.detail_price, language)
+                                                questions.get_title(language), user_result.detail_price, language)
     except Questions.DoesNotExist, e:
         eval_obj = {
             "title": _(u"爱在人间测试报告"),
@@ -369,7 +374,7 @@ def eval_detail_result(request,eid=-1):
                               {"button_text": btn_text,
                                "title": _(u"测试题"),
                                "user_result": user_result,
-                               "explains":explains,
+                               "explains": explains,
                                "is_need_pay": not user_result.is_pay_detail,
                                "pay_url": pay_url,
                                "lang_set": False,
@@ -381,16 +386,15 @@ def eval_detail_result(request,eid=-1):
                                "eval": eval_obj})
 
 
-
 @login_required
-def eval_result_for_admin(request,user_id=-1,eid=-1, result_id=-1):
+def eval_result_for_admin(request, user_id=-1, eid=-1, result_id=-1):
     """
     显示测试题的所有结果
     :param request:
     :return:
     """
     # eid = request.POST.get('eid', -1)
-    if user_id == -1 or eid == -1 or result_id==-1:
+    if user_id == -1 or eid == -1 or result_id == -1:
         hrr = HttpResponseRedirect(reverse('eval_index', kwargs={'eid': eid}))
         return hrr
     pay_url = ""
@@ -403,10 +407,10 @@ def eval_result_for_admin(request,user_id=-1,eid=-1, result_id=-1):
             "title": questions.get_title(language),
             "content": questions.get_content(language),
             "questions": questions.question,
-            }
+        }
 
-        user_result= UserResult.objects.get(id=result_id)
-        explains =UserScoreExplain.objects.filter(user_result=user_result)
+        user_result = UserResult.objects.get(id=result_id)
+        explains = UserScoreExplain.objects.filter(user_result=user_result)
 
         pay_url = ""
     except Questions.DoesNotExist, e:
@@ -420,7 +424,7 @@ def eval_result_for_admin(request,user_id=-1,eid=-1, result_id=-1):
                               {"button_text": btn_text,
                                "title": _(u"测试题"),
                                "user_result": user_result,
-                               "explains":explains,
+                               "explains": explains,
                                "is_need_pay": False,
                                "pay_url": pay_url,
                                "lang_set": False,
@@ -444,7 +448,6 @@ def set_site_language(request, language="zh", eid=1, view_name='eval_index'):
     return hrr
 
 
-
 @csrf_exempt
 def alipay_notify(request):
     """
@@ -459,18 +462,18 @@ def alipay_notify(request):
             trade_no = request.POST.get('trade_no')
             logger1.info('Change the status of bill %s' % tn)
             is_detail = False
-            urs=UserResult.objects.filter(our_trade_no=tn)
+            urs = UserResult.objects.filter(our_trade_no=tn)
             if urs.exists():
                 bill = UserResult.objects.get(our_trade_no=tn)
             else:
-                urs=UserResult.objects.filter(detail_our_trade_no=tn)
+                urs = UserResult.objects.filter(detail_our_trade_no=tn)
                 if urs.exists():
                     is_detail = True
                 else:
                     return HttpResponse("fail")
 
             trade_status = request.POST.get('trade_status')
-            language = request.POST.get('extra_common_param','zh')
+            language = request.POST.get('extra_common_param', 'zh')
             if is_detail:
                 logger1.info('the status of bill %s changed to %s' % (tn, trade_status))
                 if not bill.is_pay_detail:
@@ -481,11 +484,12 @@ def alipay_notify(request):
                 if bill.is_pay_detail:
                     to_email = bill.user.email
                     if to_email:
-                        explains =UserScoreExplain.objects.filter(user_result=bill)# bill.score_explain.all()
+                        explains = UserScoreExplain.objects.filter(user_result=bill)  # bill.score_explain.all()
                         content = []
                         for explain in explains:
                             content.append(explain.explain.get_detail(language))
-                        send_report_mail(to_email, title=bill.questions.get_title(language), content='<br>'.join(content))
+                        send_report_mail(to_email, title=bill.questions.get_title(language),
+                                         content='<br>'.join(content))
 
             else:
                 logger1.info('the status of bill %s changed to %s' % (tn, trade_status))
@@ -497,11 +501,12 @@ def alipay_notify(request):
                 if bill.is_pay:
                     to_email = bill.user.email
                     if to_email:
-                        explains =UserScoreExplain.objects.filter(user_result=bill)# bill.score_explain.all()
+                        explains = UserScoreExplain.objects.filter(user_result=bill)  # bill.score_explain.all()
                         content = []
                         for explain in explains:
                             content.append(explain.explain.get_content(language))
-                        send_report_mail(to_email, title=bill.questions.get_title(language), content='<br>'.join(content))
+                        send_report_mail(to_email, title=bill.questions.get_title(language),
+                                         content='<br>'.join(content))
             logger1.info('##info: Status of %s' % trade_status)
             logger1.info('return success')
             return HttpResponse("success")
@@ -523,11 +528,11 @@ def alipay_return(request):
         logger1.info('the status changed to %s' % trade_status)
 
         is_detail = False
-        urs=UserResult.objects.filter(our_trade_no=tn)
+        urs = UserResult.objects.filter(our_trade_no=tn)
         if urs.exists():
             bill = UserResult.objects.get(our_trade_no=tn)
         else:
-            urs=UserResult.objects.filter(detail_our_trade_no=tn)
+            urs = UserResult.objects.filter(detail_our_trade_no=tn)
             if urs.exists():
                 is_detail = True
                 bill = UserResult.objects.get(detail_our_trade_no=tn)
@@ -535,13 +540,13 @@ def alipay_return(request):
                 return HttpResponse("fail")
 
         trade_status = request.POST.get('trade_status')
-        language = request.POST.get('extra_common_param','zh')
+        language = request.POST.get('extra_common_param', 'zh')
         if is_detail:
             if not bill.is_pay_detail:
-                    bill.is_pay_detail = True
-                    bill.detail_pay_time = datetime.now()
-                    bill.detail_trade_no = trade_no
-                    bill.save()
+                bill.is_pay_detail = True
+                bill.detail_pay_time = datetime.now()
+                bill.detail_trade_no = trade_no
+                bill.save()
         else:
             if not bill.is_pay:
                 bill.is_pay = True
@@ -552,32 +557,32 @@ def alipay_return(request):
             "title": bill.questions.get_title(language),
             "content": bill.questions.get_content(language),
             "questions": bill.questions.question,
-            }
-        explains =UserScoreExplain.objects.filter(user_result=bill)# bill.score_explain.all()
-        user_result=bill
+        }
+        explains = UserScoreExplain.objects.filter(user_result=bill)  # bill.score_explain.all()
+        user_result = bill
 
-        if not is_detail and  not user_result.is_pay_detail:
-            for_detail=True
+        if not is_detail and not user_result.is_pay_detail:
+            for_detail = True
             pay_url = create_direct_pay_by_user(user_result.detail_our_trade_no, __(u'爱在人间详细测试报告'),
-                                            bill.questions.get_title(language), user_result.detail_price, language)
+                                                bill.questions.get_title(language), user_result.detail_price, language)
         else:
-            for_detail=False
-            pay_url=''
+            for_detail = False
+            pay_url = ''
         return render_to_response('backend/eval_result.html',
-                              {
-                               "button_text":  _(u"支付"),
-                               "title": _(u"测试题"),
-                               "user_result": bill,
-                               "is_need_pay": not is_detail and  not user_result.is_pay_detail,
-                               "lang_set": False,
-                               "is_detail": for_detail,
-                               "explains": explains,
-                               "eid": bill.questions.id,
-                               "price": bill.questions.detail_price,
-                               "pay_url": pay_url,
-                               "lang_code": language,
-                               "view_name": "alipay_return",
-                               "eval": eval_obj})
+                                  {
+                                      "button_text": _(u"支付"),
+                                      "title": _(u"测试题"),
+                                      "user_result": bill,
+                                      "is_need_pay": not is_detail and not user_result.is_pay_detail,
+                                      "lang_set": False,
+                                      "is_detail": for_detail,
+                                      "explains": explains,
+                                      "eid": bill.questions.id,
+                                      "price": bill.questions.detail_price,
+                                      "pay_url": pay_url,
+                                      "lang_code": language,
+                                      "view_name": "alipay_return",
+                                      "eval": eval_obj})
     return HttpResponseRedirect(reverse('payment_error'))
 
 
@@ -623,8 +628,8 @@ def send_report_mail(to_mail=None, title=None, content=None):
         msg.attach_alternative(html_content, "text/html")
         msg.send()
         logger1.info('send mail to %s success' % to_mail)
-    except Exception,e:
-        logger1.error('send mail to %s fail:%s' % (to_mail,e.message))
+    except Exception, e:
+        logger1.error('send mail to %s fail:%s' % (to_mail, e.message))
 
 
 def eval_question_autocomplete(request):
@@ -633,15 +638,15 @@ def eval_question_autocomplete(request):
     :param request:
     :return:
     '''
-    key=request.GET.get('term','').strip()
-    ret_qs=[]
-    response=HttpResponse(content_type='text/json')
-    if key!='':
+    key = request.GET.get('term', '').strip()
+    ret_qs = []
+    response = HttpResponse(content_type='text/json')
+    if key != '':
         language = translation.get_language()
-        qs=Question.objects.filter(Q(zh_content__contains=key) or Q(en_content__contains=key))[:10]
+        qs = Question.objects.filter(Q(zh_content__contains=key) or Q(en_content__contains=key))[:10]
         if qs:
             for q in qs:
-                ret_qs.append({'value':q.id,'label':q.get_content(language)})
+                ret_qs.append({'value': q.id, 'label': q.get_content(language)})
     response.write(json.dumps(ret_qs))
     return response
 
@@ -652,25 +657,26 @@ def eval_get_questions_by_class(request):
     :param request:
     :return:
     '''
-    key=request.GET.get('qs_id','').strip()
-    exist_qs_id=request.GET.get('exist_qs_id',None)
+    key = request.GET.get('qs_id', '').strip()
+    exist_qs_id = request.GET.get('exist_qs_id', None)
     if exist_qs_id:
-        exist_qs_id=exist_qs_id.split(',')
+        exist_qs_id = exist_qs_id.split(',')
     else:
-        exist_qs_id=[]
-    ret_qs=[]
-    response=HttpResponse(content_type='text/json')
-    if key!='':
+        exist_qs_id = []
+    ret_qs = []
+    response = HttpResponse(content_type='text/json')
+    if key != '':
         try:
-            qclass=QuestionClass.objects.get(id=key)
+            qclass = QuestionClass.objects.get(id=key)
             # language = translation.get_language()
-            qs=Question.objects.filter(question_class=qclass).exclude(id__in=exist_qs_id)#.values_list('id','zh_content','en_content')
+            qs = Question.objects.filter(question_class=qclass).exclude(
+                id__in=exist_qs_id)  # .values_list('id','zh_content','en_content')
 
             language = translation.get_language()
             if qs:
                 for q in qs:
-                    ret_qs.append((q.id,q.get_content(language)))
-            # ret_qs=list(qs)
+                    ret_qs.append((q.id, q.get_content(language)))
+                    # ret_qs=list(qs)
         except:
             pass
     response.write(json.dumps(ret_qs))
@@ -691,9 +697,8 @@ def more_help(request):
     return render_to_response('backend/more_help.html',
 
                               {
-                               "title": _(u"获取更多帮助"),
-                               "lang_set": False,
-                               "lang_code": request.COOKIES.get(settings.LANGUAGE_COOKIE_NAME, 'zh',),
-                               "eval": eval_obj},
+                                  "title": _(u"获取更多帮助"),
+                                  "lang_set": False,
+                                  "lang_code": request.COOKIES.get(settings.LANGUAGE_COOKIE_NAME, 'zh', ),
+                                  "eval": eval_obj},
                               context_instance=RequestContext(request))
-
