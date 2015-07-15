@@ -54,35 +54,30 @@
 
         <form id="test_form" role="form" action="" class="form-horizontal" name="test_form" method="post">
             {% csrf_token %}
-            <div class="text-left">
-
-                {% for key,value in ret_explain.items %}
-                    {% if value.score != '' %}
-                    <h3>{% trans "得分" %}：</h3>
-                    <div>{{ value.score }}</div>
-                    <h3>{% trans "说明" %}：</h3>
-                    <div>
-                    {% if lang_code == 'zh' %}
-                        {{ value.explain.zh_simple_content|safe }}
-                    {% else %}
-                        {{ value.explain.en_simple_content|safe }}
-                    {% endif %}
-                    </div>
-                    {% endif %}
-                {% endfor %}
-            {% if is_detail and explains %}
-                <h4>以下是完整的测试结果分析报告</h4>
-            {% endif %}
-                {% for value in explains %}
-                    {% if is_admin %}
-                        <h3>{% trans "得分" %}：</h3>
-                        <div>{{ value.score }}</div>
-
-
-
-                        {% if lang_code == 'zh' and value.explain.zh_simple_content or value.explain.en_simple_content%}
-                            <h3>{% trans "简要说明" %}：</h3>
-                        <div>
+            <h3 class="text-left">
+                {% if is_result_from_class %}
+                    {% for explain in ret_explain %}
+                        <h4 style="text-align: left">
+                            {% if forloop.counter < 3 or forloop.counter == 5 or is_admin %}
+                            {% trans "你的第" %}{{ forloop.counter }}
+                            {% if lang_code == 'zh' %}
+                                {{ explain.explain.zh_simple_content|striptags }}
+                            {% else %}
+                                {{ explain.explain.en_simple_content|striptags }}
+                            {% endif %}
+                                {% if is_admin %}[得分：{{ explain.score }}]{% endif %}
+                        {% else %}
+                            ...
+                        {% endif %}
+                        </h4>
+                    {% endfor %}
+                {% else %}
+                    {% for key,value in ret_explain.items %}
+                        {% if value.score != '' %}
+                            <h3>{% trans "得分" %}：</h3>
+                            <div>{{ value.score }}</div>
+                            <h3>{% trans "说明" %}：</h3>
+                            <div>
                                 {% if lang_code == 'zh' %}
                                     {{ value.explain.zh_simple_content|safe }}
                                 {% else %}
@@ -90,60 +85,83 @@
                                 {% endif %}
                             </div>
                         {% endif %}
-                        {% if lang_code == 'zh' and value.explain.zh_content or  value.explain.en_content%}
+                    {% endfor %}
+                {% endif %}
+                {% if is_detail and explains %}
+                    <h4>以下是完整的测试结果分析报告</h4>
+                {% endif %}
+                {% for value in explains %}
+                    {% if is_admin %}
+                        <h3>{% trans "得分" %}：</h3>
+                        <div>{{ value.score }}</div>
+
+
+
+                        {% if lang_code == 'zh' and value.explain.zh_simple_content or value.explain.en_simple_content %}
+                            <h3>{% trans "简要说明" %}：</h3>
+                            <div>
+                                {% if lang_code == 'zh' %}
+                                    {{ value.explain.zh_simple_content|safe }}
+                                {% else %}
+                                    {{ value.explain.en_simple_content|safe }}
+                                {% endif %}
+                            </div>
+                        {% endif %}
+                        {% if lang_code == 'zh' and value.explain.zh_content or  value.explain.en_content %}
                             <h3>{% trans "详细说明" %}：</h3>
-                        <div>
+                            <div>
                                 {% if lang_code == 'zh' %}
                                     {{ value.explain.zh_content|safe }}
                                 {% else %}
                                     {{ value.explain.en_content|safe }}
                                 {% endif %}
-                           </div>
-                         {% endif %}
-                        {% if lang_code == 'zh' and value.explain.zh_detail or  value.explain.en_detail%}
-                        <h3>{% trans "更详细说明" %}：</h3>
-                        <div>
+                            </div>
+                        {% endif %}
+                        {% if lang_code == 'zh' and value.explain.zh_detail or  value.explain.en_detail %}
+                            <h3>{% trans "更详细说明" %}：</h3>
+                            <div>
                                 {% if lang_code == 'zh' %}
                                     {{ value.explain.zh_detail|safe }}
                                 {% else %}
                                     {{ value.explain.en_detail|safe }}
                                 {% endif %}
-                         </div>
+                            </div>
                         {% endif %}
                     {% else %}
-                    <h3>{% trans "得分" %}：</h3>
-                    <div>{{ value.score }}</div>
-                    <h3>{% trans "说明" %}：</h3>
-                    <div>
-                    {% if user_result.is_pay_detail %}
-                            {% if lang_code == 'zh' %}
-                                {{ value.explain.zh_detail|safe }}
+                        <h3>{% trans "得分" %}：</h3>
+                        <div>{{ value.score }}</div>
+                        <h3>{% trans "说明" %}：</h3>
+                        <div>
+                            {% if user_result.is_pay_detail %}
+                                {% if lang_code == 'zh' %}
+                                    {{ value.explain.zh_detail|safe }}
+                                {% else %}
+                                    {{ value.explain.en_detail|safe }}
+                                {% endif %}
+                            {% elif user_result.is_pay %}
+                                {% if lang_code == 'zh' %}
+                                    {{ value.explain.zh_content|safe }}
+                                {% else %}
+                                    {{ value.explain.en_content|safe }}
+                                {% endif %}
                             {% else %}
-                                {{ value.explain.en_detail|safe }}
+                                {% if lang_code == 'zh' %}
+                                    {{ value.explain.zh_simple_content|safe }}
+                                {% else %}
+                                    {{ value.explain.en_simple_content|safe }}
+                                {% endif %}
                             {% endif %}
-                    {% elif user_result.is_pay %}
-                            {% if lang_code == 'zh' %}
-                                {{ value.explain.zh_content|safe }}
-                            {% else %}
-                                {{ value.explain.en_content|safe }}
-                            {% endif %}
-                    {% else %}
-                            {% if lang_code == 'zh' %}
-                                {{ value.explain.zh_simple_content|safe }}
-                            {% else %}
-                                {{ value.explain.en_simple_content|safe }}
-                            {% endif %}
-                    {% endif %}
-                    </div>
+                        </div>
                     {% endif %}
                 {% endfor %}
-                {% if explains and not is_admin%}
+                {% if explains and not is_admin %}
                     <div>{% trans "本次测试报告也同时以邮件形式发送到您填写的邮箱，请注意查收" %}</div>
                 {% endif %}
             </div>
             {% if is_need_pay %}
                 <br>
-                <p class="text-danger">{% if is_detail %}{% trans "本套测试题有更加详细的报告，需要支付才能查看，现在支付吗？需要支付：" %}{% else %}{% trans "本套测试题需要支付才能查看概略的报告，现在支付吗？需要支付：" %}{% endif %}<span>{{ price }}{% trans "元" %}</span>
+                <p class="text-danger">{% if is_detail %}{% trans "本套测试题有更加详细的报告，需要支付才能查看，现在支付吗？需要支付：" %}{% else %}
+                    {% trans "本套测试题需要支付才能查看概略的报告，现在支付吗？需要支付：" %}{% endif %}<span>{{ price }}{% trans "元" %}</span>
                 </p>
                 <input type="hidden" id="hidden_eid" name="eid" value="{{ eval.questions.id }}">
                 <p><a class="btn btn-lg btn-success" target="_blank" id="id_pay_btn" href="{{ pay_url }}"
@@ -166,8 +184,8 @@
                     }
 
                 </script>
-                {% else %}
-                <div style="width: 100%;text-align: right"><a href="/more_help/" >获取更多帮助</a></div>
+            {% else %}
+                <div style="width: 100%;text-align: right"><a href="/more_help/">获取更多帮助</a></div>
             {% endif %}
         </form>
 

@@ -132,6 +132,7 @@ class UserResultAdmin(admin.ModelAdmin):
     readonly_fields = ('user', 'questions', 'is_pay', 'price', 'our_trade_no', 'pay_time', 'score_explain','is_pay_detail','detail_price', 'detail_our_trade_no', 'detail_pay_time', 'add_time')
     list_display_links = ('id', 'user',)
     # search_fields = ('user__id',)
+    ordering = ('-id',)
 
 
 @admin.register(UserScoreExplain, site=admin_site)
