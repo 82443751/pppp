@@ -61,9 +61,9 @@
                             {% if forloop.counter < 3 or forloop.counter == 5 or is_admin %}
                             {% trans "你的第" %}{{ forloop.counter }}
                             {% if lang_code == 'zh' %}
-                                {{ explain.explain.zh_simple_content|striptags }}
+                                {{ explain.explain.zh_simple_content|striptags|safe }}
                             {% else %}
-                                {{ explain.explain.en_simple_content|striptags }}
+                                {{ explain.explain.en_simple_content|striptags|safe }}
                             {% endif %}
                                 {% if is_admin %}[得分：{{ explain.score }}]{% endif %}
                         {% else %}
