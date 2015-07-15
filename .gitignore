@@ -55,7 +55,4 @@ docs/_build/
 
 # PyBuilder
 target/
-<<<<<<< HEAD
-settings.py
-=======
->>>>>>> 474452bd3dfb4eaee8f6fc3d635a61eb1b45b312
+Eval/local_settings.py

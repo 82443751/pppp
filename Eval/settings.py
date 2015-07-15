@@ -126,11 +126,11 @@ CKEDITOR_CONFIGS = {
 CKEDITOR_JQUERY_URL = 'http://cdn.bootcss.com/jquery/2.1.1/jquery.min.js'
 
 EMAIL_SUBJECT_PREFIX = u'[爱在人间]'
-EMAIL_PORT = 465
-EMAIL_HOST_USER = ''
-EMAIL_HOST_PASSWORD = ''
+EMAIL_PORT = 25
+EMAIL_HOST_USER = 'eval@aizairenjian.com'
+EMAIL_HOST_PASSWORD = 'Buzhudaogao1234567'
 
-EMAIL_HOST = 'smtp.exmail.qq.com'
-EMAIL_USE_SSL = True
+EMAIL_HOST = 'smtp.mxhichina.com'
+EMAIL_USE_SSL = False
 ZH_LANG_CODE = 'zh'
 EN_LANG_CODE = 'en'
