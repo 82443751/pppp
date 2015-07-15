@@ -59,16 +59,26 @@
                     {% for explain in ret_explain %}
                         <h4 style="text-align: left">
                             {% if forloop.counter < 3 or forloop.counter == 5 or is_admin %}
-                            {% trans "你的第" %}{{ forloop.counter }}
-                            {% if lang_code == 'zh' %}
-                                {{ explain.explain.zh_simple_content|striptags|safe }}
-                            {% else %}
-                                {{ explain.explain.en_simple_content|striptags|safe }}
-                            {% endif %}
+                                {% if forloop.counter == 1 %}
+                                {% trans "你的第一" %}
+                                {% elif forloop.counter == 2 %}
+                                {% trans "你的第二" %}
+                                {% elif forloop.counter == 3 %}
+                                {% trans "你的第三" %}
+                                {% elif forloop.counter == 4 %}
+                                {% trans "你的第四" %}
+                                {% elif forloop.counter == 5 %}
+                                {% trans "你的第五" %}
+                                {% endif  %}
+                                {% if lang_code == 'zh' %}
+                                    {{ explain.explain.zh_simple_content|striptags|safe }}
+                                {% else %}
+                                    {{ explain.explain.en_simple_content|striptags|safe }}
+                                {% endif %}
                                 {% if is_admin %}[得分：{{ explain.score }}]{% endif %}
-                        {% else %}
-                            ...
-                        {% endif %}
+                            {% else %}
+                                ...
+                            {% endif %}
                         </h4>
                     {% endfor %}
                 {% else %}
@@ -157,37 +167,37 @@
                 {% if explains and not is_admin %}
                     <div>{% trans "本次测试报告也同时以邮件形式发送到您填写的邮箱，请注意查收" %}</div>
                 {% endif %}
-            </div>
-            {% if is_need_pay %}
-                <br>
-                <p class="text-danger">{% if is_detail %}{% trans "本套测试题有更加详细的报告，需要支付才能查看，现在支付吗？需要支付：" %}{% else %}
-                    {% trans "本套测试题需要支付才能查看概略的报告，现在支付吗？需要支付：" %}{% endif %}<span>{{ price }}{% trans "元" %}</span>
-                </p>
-                <input type="hidden" id="hidden_eid" name="eid" value="{{ eval.questions.id }}">
-                <p><a class="btn btn-lg btn-success" target="_blank" id="id_pay_btn" href="{{ pay_url }}"
-                      role="button">{{ button_text }}</a></p>
-                <script type="text/javascript" language="JavaScript">
-                    function submit() {
-                        var selected_value = '';
-                        alert('支付');
-                        var answer_count = 0;
-                        {#                        alert($('input:radio:checked').val());#}
-                        {#                        $('input:radio:checked').each(function(index,domEle){#}
-                        {#                            answer_count++;#}
-                        {#                        });#}
-                        {#                        if(question_count!=answer_count){#}
-                        {#                            alert('您有未选择的题，请全部做完后再提交！');#}
-                        {#                            return false;#}
-                        {#                        }#}
-                        {#                        $('#test_form').submit();#}
-                        return true;
-                    }
+    </div>
+    {% if is_need_pay %}
+        <br>
+        <p class="text-danger">{% if is_detail %}{% trans "本套测试题有更加详细的报告，需要支付才能查看，现在支付吗？需要支付：" %}{% else %}
+            {% trans "本套测试题需要支付才能查看概略的报告，现在支付吗？需要支付：" %}{% endif %}<span>{{ price }}{% trans "元" %}</span>
+        </p>
+        <input type="hidden" id="hidden_eid" name="eid" value="{{ eval.questions.id }}">
+        <p><a class="btn btn-lg btn-success" target="_blank" id="id_pay_btn" href="{{ pay_url }}"
+              role="button">{{ button_text }}</a></p>
+        <script type="text/javascript" language="JavaScript">
+            function submit() {
+                var selected_value = '';
+                alert('支付');
+                var answer_count = 0;
+                {#                        alert($('input:radio:checked').val());#}
+                {#                        $('input:radio:checked').each(function(index,domEle){#}
+                {#                            answer_count++;#}
+                {#                        });#}
+                {#                        if(question_count!=answer_count){#}
+                {#                            alert('您有未选择的题，请全部做完后再提交！');#}
+                {#                            return false;#}
+                {#                        }#}
+                {#                        $('#test_form').submit();#}
+                return true;
+            }
 
-                </script>
-            {% else %}
-                <div style="width: 100%;text-align: right"><a href="/more_help/">获取更多帮助</a></div>
-            {% endif %}
-        </form>
+        </script>
+    {% else %}
+        <div style="width: 100%;text-align: right"><a href="/more_help/">获取更多帮助</a></div>
+    {% endif %}
+    </form>
 
 
     </div>
