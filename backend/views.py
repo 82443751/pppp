@@ -208,7 +208,7 @@ def eval_result(request, eid=-1):
             else:
                 is_invalid = False and is_invalid
 
-        if is_invalid:
+        if is_invalid and not questions.is_result_from_class:
             return render_to_response('backend/eval_test_error.html',
                                       {"button_text": _(u"返回"),
                                        "title": _(u"测试题"),
