@@ -39,6 +39,27 @@ class Option(models.Model):
         verbose_name = verbose_name_plural = _(u"问题可选项")
 
 
+class Items(models.Model):
+    u"""问题的可选项"""
+    zh_content = models.CharField(_(u"中文"), max_length=300, help_text=_(u"示例：轻微"))
+    en_content = models.CharField(_(u"英文"), max_length=300, help_text=_(u"Example: Lower"))
+    score = models.IntegerField(_(u"分值"), default=1, help_text=_(u"该选项的分值"))
+    add_time = models.DateTimeField(_(u"添加时间"), auto_now_add=True)
+
+    def get_content(self, language=settings.CURRENT_LANG_CODE):
+        if language.startswith(settings.ZH_LANG_CODE):
+            return self.zh_content
+        else:
+            return self.en_content
+
+    def __unicode__(self):
+        return u"%s[%s]" % (self.zh_content, self.score)
+
+    class Meta:
+        ordering = ['add_time']
+        verbose_name = verbose_name_plural = _(u"问题行可选项")
+
+
 class QuestionClass(models.Model):
     u"""问题的类别"""
     zh_content = models.CharField(_(u"中文"), max_length=300)
@@ -65,6 +86,7 @@ class Question(models.Model):
     en_content = models.CharField(_(u"英文"), max_length=500, db_index=True)
     question_class = models.ForeignKey(QuestionClass, blank=True, null=True, db_index=True)
     options = models.ManyToManyField(Option)
+    is_single = models.BooleanField(_(u'是否单选'), default=True)
     add_time = models.DateTimeField(_(u"添加时间"), auto_now_add=True)
 
     def get_content(self, language=settings.CURRENT_LANG_CODE):
@@ -89,10 +111,13 @@ class ResultExplain(models.Model):
     # user_score = models.IntegerField(_(u"用户得分"), help_text=u"", blank=True, null=True, db_index=True)
     zh_simple_content = RichTextField(_(u"简要说明"), config_name='awesome_ckeditor', blank=True, null=True)
     en_simple_content = RichTextField(_(u"简要说明[英文]"), config_name='awesome_ckeditor', blank=True, null=True)
+    is_show_simple_content = models.BooleanField(_(u'是否在简要结果中显示'), blank=True,default=True)
     zh_content = RichTextField(_(u"详细说明"), config_name='awesome_ckeditor', blank=True, null=True)
     en_content = RichTextField(_(u"详细说明[英文]"), config_name='awesome_ckeditor', blank=True, null=True)
+    is_show_content = models.BooleanField(_(u'是否在详细结果中显示'), blank=True,default=False)
     zh_detail = RichTextField(_(u"更详细说明"), config_name='awesome_ckeditor', blank=True, null=True)
     en_detail = RichTextField(_(u"更详细说明[英文]"), config_name='awesome_ckeditor', blank=True, null=True)
+    is_show_detail = models.BooleanField(_(u'是否在理详细结果中显示'), blank=True,default=False)
     add_time = models.DateTimeField(_(u"添加时间"), auto_now_add=True)
 
     def get_simple_content(self, language=settings.CURRENT_LANG_CODE):
@@ -130,7 +155,9 @@ class Questions(models.Model):
     question = models.ManyToManyField(Question, verbose_name=_(u'问题'))
     explain = models.ManyToManyField(ResultExplain, verbose_name=_(u'分值说明'), null=True, blank=True)
     is_need_pay = models.BooleanField(_(u"是否需要付费"), default=False, db_index=True)
-    is_result_from_class = models.BooleanField(_(u"是否以问题分类作结果"), default=False, db_index=True)
+    is_result_from_class = models.BooleanField(_(u"以问题分类作结果？"), default=False, db_index=True)
+    is_conflict_style_test = models.BooleanField(_(u"是冲突风格测试？"), default=False, db_index=True)
+    items = models.ManyToManyField(Items, blank=True)
     price = models.FloatField(_(u"价格"), default=0)
     detail_price = models.FloatField(_(u"详细报告价格"), default=0)
     add_time = models.DateTimeField(_(u"添加时间"), auto_now_add=True)

@@ -110,6 +110,7 @@ def eval_test(request, eid=-1):
                 "title": questions.get_title(language),
                 "content": questions.get_content(language),
                 "questions": questions.question,
+                "self": questions,
             }
             can_test = True
         except Questions.DoesNotExist:
@@ -201,9 +202,10 @@ def eval_result(request, eid=-1):
             ua = UserAnwser.objects.create(user=user, questions=questions, question=q, option=option)
             user_anwsers.append(ua.id)
             # ua.save()
+
         for qc, score in class_score.iteritems():
             if (invalid_min_score is not None and score <= invalid_min_score) or (
-                    invalid_max_score is not None and score >= invalid_max_score):
+                            invalid_max_score is not None and score >= invalid_max_score):
                 is_invalid = True and is_invalid
             else:
                 is_invalid = False and is_invalid
@@ -242,7 +244,7 @@ def eval_result(request, eid=-1):
                         use.save()
                         if explain.get_simple_content(language) and explain.get_content(language):
                             ret_explain[explain.question_class.id] = use
-        if questions.is_result_from_class:#特殊的问题类别，是按每一类的分值决定结果
+        if questions.is_result_from_class:  # 特殊的问题类别，是按每一类的分值决定结果
             ret_explain = user_result.userscoreexplain_set.all().order_by('-score')
         if user_result.price == 0:
             pay_url = create_direct_pay_by_user(user_result.detail_our_trade_no, __(u'爱在人间测试报告'),
@@ -263,7 +265,7 @@ def eval_result(request, eid=-1):
                                "user_result": user_result,
                                "ret_explain": ret_explain,
                                "is_need_pay": questions.is_need_pay,
-                               "is_result_from_class":questions.is_result_from_class,
+                               "is_result_from_class": questions.is_result_from_class,
                                "lang_set": False,
                                "eid": eid,
                                "pay_url": pay_url,
@@ -412,9 +414,9 @@ def eval_result_for_admin(request, user_id=-1, eid=-1, result_id=-1):
         }
 
         user_result = UserResult.objects.get(id=result_id)
-        explains=None
-        ret_explain=None
-        if questions.is_result_from_class:#特殊的问题类别，是按每一类的分值决定结果
+        explains = None
+        ret_explain = None
+        if questions.is_result_from_class:  # 特殊的问题类别，是按每一类的分值决定结果
             ret_explain = user_result.userscoreexplain_set.all().order_by('-score')
         else:
             explains = UserScoreExplain.objects.filter(user_result=user_result)
@@ -434,7 +436,7 @@ def eval_result_for_admin(request, user_id=-1, eid=-1, result_id=-1):
                                "explains": explains,
                                "ret_explain": ret_explain,
                                "is_need_pay": False,
-                               "is_result_from_class":questions.is_result_from_class,
+                               "is_result_from_class": questions.is_result_from_class,
                                "pay_url": pay_url,
                                "lang_set": False,
                                "eid": eid,

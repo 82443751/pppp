@@ -58,7 +58,7 @@
                 {% if is_result_from_class %}
                     {% for explain in ret_explain %}
                         <h4 style="text-align: left">
-                            {% if forloop.counter < 3 or forloop.counter == 5 or is_admin %}
+                            {% if explain. or is_admin %}
                                 {% if forloop.counter == 1 %}
                                 {% trans "你的第一" %}
                                 {% elif forloop.counter == 2 %}
