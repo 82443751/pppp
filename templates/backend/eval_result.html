@@ -56,31 +56,43 @@
             {% csrf_token %}
             <h3 class="text-left">
                 {% if is_result_from_class %}
-                    {% for explain in ret_explain %}
-                        <h4 style="text-align: left">
-                            {% if forloop.counter < 3 or forloop.counter == 5 or is_admin %}
-                                {% if forloop.counter == 1 %}
-                                {% trans "你的第一" %}
-                                {% elif forloop.counter == 2 %}
-                                {% trans "你的第二" %}
-                                {% elif forloop.counter == 3 %}
-                                {% trans "你的第三" %}
-                                {% elif forloop.counter == 4 %}
-                                {% trans "你的第四" %}
-                                {% elif forloop.counter == 5 %}
-                                {% trans "你的第五" %}
-                                {% endif  %}
-                                {% if lang_code == 'zh' %}
-                                    {{ explain.explain.zh_simple_content|striptags|safe }}
+                    {% if user_result.questions.is_conflict_style_test %}
+                            {% for userscoreexplain in ret_explain %}
+                                 <h4 style="text-align: left">{% trans "你与" %}{{ userscoreexplain.item.get_content }}{% if lang_code == 'zh' %}
+                                        {{ userscoreexplain.explain.zh_simple_content|striptags|safe }}
+                                    {% else %}
+                                        {{ userscoreexplain.explain.en_simple_content|striptags|safe }}
+                                    {% endif %}
+{#                                     [得分：{{ userscoreexplain.score }}]#}
+                                </h4>
+                            {% endfor %}
+                    {% else %}
+                        {% for explain in ret_explain %}
+                            <h4 style="text-align: left">
+                                {% if explain.explain or is_admin %}
+                                    {% if forloop.counter == 1 %}
+                                        {% trans "你的第一" %}
+                                    {% elif forloop.counter == 2 %}
+                                        {% trans "你的第二" %}
+                                    {% elif forloop.counter == 3 %}
+                                        {% trans "你的第三" %}
+                                    {% elif forloop.counter == 4 %}
+                                        {% trans "你的第四" %}
+                                    {% elif forloop.counter == 5 %}
+                                        {% trans "你的第五" %}
+                                    {% endif %}
+                                    {% if lang_code == 'zh' %}
+                                        {{ explain.explain.zh_simple_content|striptags|safe }}
+                                    {% else %}
+                                        {{ explain.explain.en_simple_content|striptags|safe }}
+                                    {% endif %}
+                                    {% if is_admin %}[得分：{{ explain.score }}]{% endif %}
                                 {% else %}
-                                    {{ explain.explain.en_simple_content|striptags|safe }}
+                                    ...
                                 {% endif %}
-                                {% if is_admin %}[得分：{{ explain.score }}]{% endif %}
-                            {% else %}
-                                ...
-                            {% endif %}
-                        </h4>
-                    {% endfor %}
+                            </h4>
+                        {% endfor %}
+                    {% endif %}
                 {% else %}
                     {% for key,value in ret_explain.items %}
                         {% if value.score != '' %}
