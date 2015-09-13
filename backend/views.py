@@ -176,76 +176,138 @@ def eval_result(request, eid=-1):
             invalid_max_score = None
         is_invalid = True
         user_anwsers = []
-        for q in qs:
-            option_id = request.POST.get('option_' + str(q.id))
-            if option_id is None:
-                if user_anwsers:
-                    UserAnwser.objects.filter(id__in=user_anwsers).delete()
+        if not questions.is_conflict_style_test:
+            for q in qs:
+                option_id = request.POST.get('option_' + str(q.id))
+                if option_id is None:
+                    if user_anwsers:
+                        UserAnwser.objects.filter(id__in=user_anwsers).delete()
+                    return render_to_response('backend/eval_test_error.html',
+                                              {"button_text": _(u"返回"),
+                                               "title": _(u"测试题"),
+                                               "info": _(u"请全部填写完成后再点击'提交'按钮。"),
+                                               })
+                option = Option.objects.get(id=option_id)
+                score = option.score
+                if q.question_class is None:
+                    if -1 in class_score:
+                        class_score[-1] = class_score[-1] + score
+                    else:
+                        class_score[-1] = score
+                else:
+                    if q.question_class.id in class_score:
+                        class_score[q.question_class.id] = class_score[q.question_class.id] + score
+                    else:
+                        class_score[q.question_class.id] = score
+
+                ua = UserAnwser.objects.create(user=user, questions=questions, question=q, option=option)
+                user_anwsers.append(ua.id)
+                # ua.save()
+            for qc, score in class_score.iteritems():
+                if (invalid_min_score is not None and score <= invalid_min_score) or (
+                                invalid_max_score is not None and score >= invalid_max_score):
+                    is_invalid = True and is_invalid
+                else:
+                    is_invalid = False and is_invalid
+
+            if is_invalid and not questions.is_result_from_class:
                 return render_to_response('backend/eval_test_error.html',
                                           {"button_text": _(u"返回"),
                                            "title": _(u"测试题"),
-                                           "info": _(u"请全部填写完成后再点击'提交'按钮。"),
+                                           "info": _(u"对不起，根据您的选择无法得到有效结果，请重新答题或者联系爱在人间进行人工咨询。"),
                                            })
-            option = Option.objects.get(id=option_id)
-            score = option.score
-            if q.question_class is None:
-                if -1 in class_score:
-                    class_score[-1] = class_score[-1] + score
-                else:
-                    class_score[-1] = score
-            else:
-                if q.question_class.id in class_score:
-                    class_score[q.question_class.id] = class_score[q.question_class.id] + score
-                else:
-                    class_score[q.question_class.id] = score
-
-            ua = UserAnwser.objects.create(user=user, questions=questions, question=q, option=option)
-            user_anwsers.append(ua.id)
-            # ua.save()
-
-        for qc, score in class_score.iteritems():
-            if (invalid_min_score is not None and score <= invalid_min_score) or (
-                            invalid_max_score is not None and score >= invalid_max_score):
-                is_invalid = True and is_invalid
-            else:
-                is_invalid = False and is_invalid
-
-        if is_invalid and not questions.is_result_from_class:
-            return render_to_response('backend/eval_test_error.html',
-                                      {"button_text": _(u"返回"),
-                                       "title": _(u"测试题"),
-                                       "info": _(u"对不起，根据您的选择无法得到有效结果，请重新答题或者联系爱在人间进行人工咨询。"),
-                                       })
-        user_result = UserResult.objects.create(user=user, questions=questions)
-        if user_anwsers:
-            UserAnwser.objects.filter(id__in=user_anwsers).update(user_result=user_result)
-        # if created:
-        user_result.price = questions.price
-        user_result.our_trade_no = gen_order_no()
-        user_result.detail_price = questions.detail_price
-        user_result.detail_our_trade_no = gen_order_no()
-        user_result.save()
-        ret_explain = {}
-        for explain in questions.explain.all():
-            if explain.question_class is None and -1 in class_score:
-                # explain.user_score=class_score[-1]
-                if explain.max_score >= class_score[-1] >= explain.min_score:
-                    use, created = UserScoreExplain(user_result=user_result, explain=explain)
-                    use.score = class_score[-1]
-                    use.save()
-                    if explain.get_simple_content(language) and explain.get_content(language):
-                        ret_explain[-1] = use
-            elif explain.question_class is not None:
-                if explain.question_class.id in class_score:
-                    if (explain.max_score >= class_score[explain.question_class.id] >= explain.min_score) or questions.is_result_from_class:
-                        use = UserScoreExplain(user_result=user_result, explain=explain)
-                        use.score = class_score[explain.question_class.id]
-                        use.question_class = explain.question_class
+            user_result = UserResult.objects.create(user=user, questions=questions)
+            if user_anwsers:
+                UserAnwser.objects.filter(id__in=user_anwsers).update(user_result=user_result)
+            # if created:
+            user_result.price = questions.price
+            user_result.our_trade_no = gen_order_no()
+            user_result.detail_price = questions.detail_price
+            user_result.detail_our_trade_no = gen_order_no()
+            user_result.save()
+            ret_explain = {}
+            for explain in questions.explain.all():
+                if explain.question_class is None and -1 in class_score:
+                    # explain.user_score=class_score[-1]
+                    if explain.max_score >= class_score[-1] >= explain.min_score:
+                        use, created = UserScoreExplain(user_result=user_result, explain=explain)
+                        use.score = class_score[-1]
                         use.save()
                         if explain.get_simple_content(language) and explain.get_content(language):
-                            ret_explain[explain.question_class.id] = use
-        if questions.is_result_from_class:  # 特殊的问题类别，是按每一类的分值决定结果
-            ret_explain = user_result.userscoreexplain_set.all().order_by('-score')
+                            ret_explain[-1] = use
+                elif explain.question_class is not None:
+                    if explain.question_class.id in class_score:
+                        if (explain.max_score >= class_score[
+                            explain.question_class.id] >= explain.min_score) or questions.is_result_from_class:
+                            use = UserScoreExplain(user_result=user_result, explain=explain)
+                            use.score = class_score[explain.question_class.id]
+                            use.question_class = explain.question_class
+                            use.save()
+                            if explain.get_simple_content(language) and explain.get_content(language):
+                                ret_explain[explain.question_class.id] = use
+            if questions.is_result_from_class:  # 特殊的问题类别，是按每一类的分值决定结果
+                ret_explain = user_result.userscoreexplain_set.all().order_by('-score')
+        else:  # 冲突风格测试的结果取值
+            q_items = questions.items.all()
+            for q_item in q_items:
+                class_score[q_item.id] = {}
+                for q in qs:
+                    option_id = request.POST.get('item_%s_option_%s' % (q_item.id, q.id))
+                    if option_id is None:
+                        if user_anwsers:
+                            UserAnwser.objects.filter(id__in=user_anwsers).delete()
+                        return render_to_response('backend/eval_test_error.html',
+                                                  {"button_text": _(u"返回"),
+                                                   "title": _(u"测试题"),
+                                                   "info": _(u"请全部填写完成后再点击'提交'按钮。"),
+                                                   })
+                    option = Option.objects.get(id=option_id)
+                    score = option.score
+                    if q.question_class is None:
+                        if -1 in class_score:
+                            class_score[q_item.id][-1] = class_score[q_item.id][-1] + score
+                        else:
+                            class_score[q_item.id][-1] = score
+                    else:
+                        if q.question_class.id in class_score[q_item.id]:
+                            class_score[q_item.id][q.question_class.id] = class_score[q_item.id][
+                                                                              q.question_class.id] + score
+                        else:
+                            class_score[q_item.id][q.question_class.id] = score
+
+                    ua = UserAnwser.objects.create(user=user, questions=questions, question=q, option=option,
+                                                   item=q_item)
+                    user_anwsers.append(ua.id)
+                    # ua.save()
+            user_result = UserResult.objects.create(user=user, questions=questions)
+            if user_anwsers:
+                UserAnwser.objects.filter(id__in=user_anwsers).update(user_result=user_result)
+            # if created:
+            user_result.price = questions.price
+            user_result.our_trade_no = gen_order_no()
+            user_result.detail_price = questions.detail_price
+            user_result.detail_our_trade_no = gen_order_no()
+            user_result.save()
+            ret_explain = {}
+            q_items = questions.items.all()
+            if questions.is_result_from_class:  # 特殊的问题类别，是按每一类的分值决定结果
+
+                for q_item in q_items:
+                    ret_explain[q_item.id] = {}
+                    for explain in questions.explain.all():
+                        if explain.question_class is not None:
+                            if explain.question_class.id in class_score[q_item.id]:
+                                use, created = UserScoreExplain.objects.get_or_create(user_result=user_result,
+                                                                                      item=q_item)
+                                if created or use.score < class_score[q_item.id][explain.question_class.id]:
+                                    use.explain = explain
+                                    use.score = class_score[q_item.id][explain.question_class.id]
+                                    use.question_class = explain.question_class
+                                    use.save()
+
+                                # if explain.get_simple_content(language) and explain.get_content(language):
+                                #     ret_explain[q_item.id][explain.question_class.id] = use
+                ret_explain = user_result.userscoreexplain_set.all().order_by('-score')
         if user_result.price == 0:
             pay_url = create_direct_pay_by_user(user_result.detail_our_trade_no, __(u'爱在人间测试报告'),
                                                 questions.get_title(language), user_result.detail_price, language)

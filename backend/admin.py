@@ -55,7 +55,7 @@ class QuestionAdmin(admin.ModelAdmin):
 
 @admin.register(ResultExplain, site=admin_site)
 class ResultExplainAdmin(admin.ModelAdmin):
-    list_display = ('id', 'min_score', 'max_score', 'add_time')
+    list_display = ('id','question_class',  'min_score', 'max_score', 'add_time')
     exclude = ('add_time',)
 
     ordering = ('-id',)
@@ -63,7 +63,7 @@ class ResultExplainAdmin(admin.ModelAdmin):
 
     fieldsets = (
         (None, {
-            'fields': ('min_score', 'max_score',)
+            'fields': ('question_class', 'min_score', 'max_score',)
         }),
         (_(u"简要说明"), {
             'fields': ('zh_simple_content', 'en_simple_content', 'is_show_simple_content')
@@ -124,21 +124,21 @@ class QuestionsAdmin(admin.ModelAdmin):
                     kwargs["queryset"] = qs
             else:
                 kwargs["queryset"] = Question.objects.none()
-        if db_field.name == "explain":
-            us = request.META['PATH_INFO'].split('/')
-            if unicode.isdigit(us[-2]):
-                qid = us[-2]
-                qs = Questions.objects.get(id=qid)
-                kwargs["queryset"] = qs.explain.all()
-            elif us[-2] == 'add':
-                qsid = request.POST.getlist('explain')
-                if not qsid:
-                    kwargs["queryset"] = Question.objects.none()
-                else:
-                    qs = ResultExplain.objects.filter(id__in=qsid)
-                    kwargs["queryset"] = qs
-            else:
-                kwargs["queryset"] = ResultExplain.objects.none()
+        # if db_field.name == "explain":
+        #     us = request.META['PATH_INFO'].split('/')
+        #     if unicode.isdigit(us[-2]):
+        #         qid = us[-2]
+        #         qs = Questions.objects.get(id=qid)
+        #         kwargs["queryset"] = qs.explain.all()
+        #     elif us[-2] == 'add':
+        #         qsid = request.POST.getlist('explain')
+        #         if not qsid:
+        #             kwargs["queryset"] = Question.objects.none()
+        #         else:
+        #             qs = ResultExplain.objects.filter(id__in=qsid)
+        #             kwargs["queryset"] = qs
+        #     else:
+        #         kwargs["queryset"] = ResultExplain.objects.none()
         return super(QuestionsAdmin, self).formfield_for_manytomany(db_field, request, **kwargs)
 
 

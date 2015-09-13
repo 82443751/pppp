@@ -40,7 +40,7 @@ class Option(models.Model):
 
 
 class Items(models.Model):
-    u"""问题的可选项"""
+    u"""冲突风格的纵向问题的可选项"""
     zh_content = models.CharField(_(u"中文"), max_length=300, help_text=_(u"示例：轻微"))
     en_content = models.CharField(_(u"英文"), max_length=300, help_text=_(u"Example: Lower"))
     score = models.IntegerField(_(u"分值"), default=1, help_text=_(u"该选项的分值"))
@@ -111,13 +111,13 @@ class ResultExplain(models.Model):
     # user_score = models.IntegerField(_(u"用户得分"), help_text=u"", blank=True, null=True, db_index=True)
     zh_simple_content = RichTextField(_(u"简要说明"), config_name='awesome_ckeditor', blank=True, null=True)
     en_simple_content = RichTextField(_(u"简要说明[英文]"), config_name='awesome_ckeditor', blank=True, null=True)
-    is_show_simple_content = models.BooleanField(_(u'是否在简要结果中显示'), blank=True,default=True)
+    is_show_simple_content = models.BooleanField(_(u'是否在简要结果中显示'), blank=True, default=True)
     zh_content = RichTextField(_(u"详细说明"), config_name='awesome_ckeditor', blank=True, null=True)
     en_content = RichTextField(_(u"详细说明[英文]"), config_name='awesome_ckeditor', blank=True, null=True)
-    is_show_content = models.BooleanField(_(u'是否在详细结果中显示'), blank=True,default=False)
+    is_show_content = models.BooleanField(_(u'是否在详细结果中显示'), blank=True, default=False)
     zh_detail = RichTextField(_(u"更详细说明"), config_name='awesome_ckeditor', blank=True, null=True)
     en_detail = RichTextField(_(u"更详细说明[英文]"), config_name='awesome_ckeditor', blank=True, null=True)
-    is_show_detail = models.BooleanField(_(u'是否在理详细结果中显示'), blank=True,default=False)
+    is_show_detail = models.BooleanField(_(u'是否在理详细结果中显示'), blank=True, default=False)
     add_time = models.DateTimeField(_(u"添加时间"), auto_now_add=True)
 
     def get_simple_content(self, language=settings.CURRENT_LANG_CODE):
@@ -236,7 +236,7 @@ class UserResult(models.Model):
     def get_anwser_url(self):
         return format_html(
             u'<a href="/admin/backend/useranwser/?user_result__id=' + str(self.id) + '" target="_blank">' + (
-            u'查看问题') + '</a>')
+                u'查看问题') + '</a>')
 
     get_anwser_url.allow_tags = True
     get_anwser_url.short_description = _(u'查看用户选择的问题')
@@ -271,6 +271,7 @@ class UserAnwser(models.Model):
     user = models.ForeignKey(EvalUser, db_index=True)
     questions = models.ForeignKey(Questions, db_index=True)
     question = models.ForeignKey(Question, db_index=True)
+    item = models.ForeignKey(Items, db_index=True, blank=True, null=True)
     option = models.ForeignKey(Option, db_index=True)
     user_result = models.ForeignKey(UserResult, null=True, blank=True, db_index=True)
     add_time = models.DateTimeField(_(u"添加时间"), auto_now_add=True)
@@ -288,7 +289,8 @@ class UserScoreExplain(models.Model):
     用户的得分说明
     '''
     user_result = models.ForeignKey(UserResult)
-    explain = models.ForeignKey(ResultExplain)
+    explain = models.ForeignKey(ResultExplain, blank=True, null=True)
+    item = models.ForeignKey(Items, db_index=True, blank=True, null=True)
     score = models.IntegerField(verbose_name=_(u"分值"), default=-1, blank=True)
     question_class = models.ForeignKey(QuestionClass, blank=True, null=True, db_index=True)
     add_time = models.DateTimeField(_(u"添加时间"), auto_now_add=True, blank=True, null=True)
