@@ -24,6 +24,7 @@
                         {{ q.en_content }}{% endif %}</h4>
                     {% if eval.self.is_conflict_style_test == True %}
                         {% for item in eval.self.items.all %}
+                            <div class="row">
                             <div class="col-sm-2 radio">
                                 <label>{% if lang_code == 'zh' %}
                                     {{ item.zh_content }}{% else %}{{ item.en_content }}{% endif %}</label></div>
@@ -38,6 +39,7 @@
                                     </label></div>
 
                             {% endfor %}
+                            </div>
                         {% endfor %}
                     {% else %}
                         {% for o in q.options.all %}
