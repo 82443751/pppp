@@ -694,7 +694,7 @@ def send_report_mail(to_mail=None, title=None, content=None):
     '''
     try:
         logger1.info('send mail to %s:' % to_mail)
-        subject, from_email, to = _(u'爱在人间测试报告'), 'kevinma@zhongkeyun.com', to_mail
+        subject, from_email, to = _(u'爱在人间测试报告'), 'eval@aizairenjian.com', to_mail
         text_content = content
         html_content = '<h2>%s</h2><p>%s</p>' % (title, text_content)
         msg = EmailMultiAlternatives(subject, text_content, from_email, [to])
