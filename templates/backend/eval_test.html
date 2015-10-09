@@ -26,8 +26,8 @@
                         {% for item in eval.self.items.all %}
                             <div class="row">
                             <div class="col-sm-2 radio">
-                                <label>{% if lang_code == 'zh' %}
-                                    {{ item.zh_content }}{% else %}{{ item.en_content }}{% endif %}</label></div>
+                                <label><strong>{% if lang_code == 'zh' %}
+                                    {{ item.zh_content }}{% else %}{{ item.en_content }}{% endif %}</strong></label></div>
                             {% for o in q.options.all %}
 
                                 <div class="col-sm-2 radio">
