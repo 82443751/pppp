@@ -44,6 +44,7 @@ class Items(models.Model):
     zh_content = models.CharField(_(u"中文"), max_length=300, help_text=_(u"示例：轻微"))
     en_content = models.CharField(_(u"英文"), max_length=300, help_text=_(u"Example: Lower"))
     score = models.IntegerField(_(u"分值"), default=1, help_text=_(u"该选项的分值"))
+    order = models.IntegerField(_(u"显示顺序"), default=1, help_text=_(u"数值越小显示位置越靠前"))
     add_time = models.DateTimeField(_(u"添加时间"), auto_now_add=True)
 
     def get_content(self, language=settings.CURRENT_LANG_CODE):
@@ -56,7 +57,7 @@ class Items(models.Model):
         return u"%s[%s]" % (self.zh_content, self.score)
 
     class Meta:
-        ordering = ['add_time']
+        ordering = ['order']
         verbose_name = verbose_name_plural = _(u"问题行可选项")
 
 

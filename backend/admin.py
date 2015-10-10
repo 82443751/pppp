@@ -26,11 +26,11 @@ class OptionAdmin(admin.ModelAdmin):
 
 @admin.register(Items, site=admin_site)
 class ItemsAdmin(admin.ModelAdmin):
-    list_display = ('id', 'zh_content', 'en_content', 'score', 'add_time')
+    list_display = ('id', 'zh_content', 'en_content', 'score','order', 'add_time')
     exclude = ('add_time',)
     search_fields = ('zh_content', 'en_content')
     list_display_links = ('id', 'zh_content',)
-    ordering = ('-score',)
+    ordering = ('-add_time',)
 
 
 @admin.register(QuestionClass, site=admin_site)
