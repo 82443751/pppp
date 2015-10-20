@@ -16,7 +16,7 @@ admin_site = MyAdminSite(name='love')
 
 @admin.register(Option, site=admin_site)
 class OptionAdmin(admin.ModelAdmin):
-    list_display = ('id', 'zh_content', 'en_content', 'score', 'add_time')
+    list_display = ('id', 'zh_content', 'en_content', 'score', 'order', 'add_time')
     exclude = ('add_time',)
     search_fields = ('zh_content', 'en_content')
     list_display_links = ('id', 'zh_content',)
@@ -26,7 +26,7 @@ class OptionAdmin(admin.ModelAdmin):
 
 @admin.register(Items, site=admin_site)
 class ItemsAdmin(admin.ModelAdmin):
-    list_display = ('id', 'zh_content', 'en_content', 'score','order', 'add_time')
+    list_display = ('id', 'zh_content', 'en_content', 'score', 'order', 'add_time')
     exclude = ('add_time',)
     search_fields = ('zh_content', 'en_content')
     list_display_links = ('id', 'zh_content',)
@@ -55,7 +55,7 @@ class QuestionAdmin(admin.ModelAdmin):
 
 @admin.register(ResultExplain, site=admin_site)
 class ResultExplainAdmin(admin.ModelAdmin):
-    list_display = ('id','question_class',  'min_score', 'max_score', 'add_time')
+    list_display = ('id', 'question_class', 'min_score', 'max_score', 'add_time')
     exclude = ('add_time',)
 
     ordering = ('-id',)
